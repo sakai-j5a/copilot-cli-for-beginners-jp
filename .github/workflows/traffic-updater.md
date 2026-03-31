@@ -5,14 +5,17 @@ on:
   schedule: weekly on monday
   workflow_dispatch:
 tools:
-  bash: ["gh", "date"]
+  bash: ["date"]
   edit:
   github:
     toolsets: [repos]
-# NOTE: After running `gh aw compile`, manually add the following env var
-# to the agent step in the lock file (the step that runs `copilot`):
-#   GH_TOKEN: ${{ secrets.GH_AW_GITHUB_TOKEN }}
-# This is required because engine.env is not yet supported by the compiler.
+mcp-scripts:
+  fetch-traffic:
+    description: "Fetch the last 14 days of traffic views for this repository from the GitHub API. Returns JSON with a views array containing timestamp, count, and uniques per day."
+    run: |
+      gh api repos/$GITHUB_REPOSITORY/traffic/views
+    env:
+      GH_TOKEN: "${{ secrets.GH_AW_GITHUB_TOKEN }}"
 safe-outputs:
   allowed-domains:
     - github.com
@@ -41,13 +44,7 @@ If both files are empty, treat the start date as 14 days ago (the maximum the Gi
 
 ## Step 2 — Fetch traffic data
 
-Use the `gh` CLI to call the GitHub Traffic API for this repository:
-
-```bash
-gh api repos/{owner}/{repo}/traffic/views
-```
-
-The response includes a `views` array with objects containing `timestamp`, `count`, and `uniques` for each day in the last 14 days.
+Call the `fetch-traffic` tool (no inputs needed). It returns JSON with a `views` array containing objects with `timestamp`, `count`, and `uniques` for each day in the last 14 days.
 
 ## Step 3 — Filter to new dates only
 
