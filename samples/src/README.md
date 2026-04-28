@@ -1,10 +1,10 @@
-# Sample Source Code (Legacy - Optional Reference)
+# サンプルソースコード（レガシー - オプション参考）
 
-> **Note**: The primary sample for this course is the **Python book collection app** in `../book-app-project/`. These JS/React files are from an earlier version of the course and are kept as optional extra reference material for learners who want JS examples.
+> **注記**: このコースの主要サンプルは `../book-app-project/` の **Python書籍コレクションアプリ** です。こゎのJS/Reactファイルはコースの旧バージョンのもので、JS例を希望する学習者向けのオプション参考資料として残してあります。
 
-This folder contains sample source files. These are only samples and not intended to be a full running application.
+このフォルダにはサンプルのソースファイルが含まれています。これらはサンプルのみであり、完全に動作するアプリケーションとして設計されていません。
 
-## Structure
+## 構成
 
 ```
 src/
@@ -28,9 +28,9 @@ src/
 └── refactor-me.js # Beginner refactoring practice (Chapter 03)
 ```
 
-## Usage
+## 使い方
 
-These files are referenced in course examples using the `@` syntax:
+これらのファイルは、`@`構文を使ってコースの例に示されます：
 
 ```bash
 copilot
@@ -40,9 +40,9 @@ copilot
 > Compare @samples/src/auth/login.js and @samples/src/auth/register.js
 ```
 
-## Refactoring Practice
+## リファクタリング練習
 
-The `refactor-me.js` file is specifically designed for Chapter 03's refactoring exercises:
+`refactor-me.js`ファイルは、第03章のリファクタリング演習用に特別に用意されています：
 
 ```bash
 copilot
@@ -52,8 +52,8 @@ copilot
 > @samples/src/refactor-me.js Remove any unused variables
 ```
 
-## Notes
+## メモ
 
-- Files contain intentional TODOs and minor issues for Copilot to find during reviews
-- This is demo code that's not designed to actually run. NOT production-ready
-- Used for learning the `@` file reference syntax
+- ファイルには、レビュー時にCopilotが見つけるための意図的なTODOや小さな問題が含まれている
+- 実際に動作する設計ではないデモコード。本番環境向けではない
+- `@`ファイル参照構文の学習に使用

@@ -1,31 +1,31 @@
-# Book Collection App
+# 書籍コレクションアプリ
 
-*(This README is intentionally rough so you can improve it with GitHub Copilot CLI)*
+*（このREADMEは意図的に雑に書かれています。GitHub Copilot CLIを使って改善してみてください）*
 
-A Python app for managing books you have or want to read.
-It can add, remove, and list books. Also mark them as read.
-
----
-
-## Current Features
-
-* Reads books from a JSON file (our database)
-* Input checking is weak in some areas
-* Some tests exist but probably not enough
+読んだ本・読みたい本を管理するためのPythonアプリです。
+本の追加・削除・一覧表示、既読のマーク付けができます。
 
 ---
 
-## Files
+## 現在の機能
 
-* `book_app.py` - Main CLI entry point
-* `books.py` - BookCollection class with data logic
-* `utils.py` - Helper functions for UI and input
-* `data.json` - Sample book data
-* `tests/test_books.py` - Starter pytest tests
+* JSONファイルから書籍データを読み込む（データベース代わり）
+* 一部の入力チェックが不十分
+* テストはあるが、おそらく十分ではない
 
 ---
 
-## Running the App
+## ファイル構成
+
+* `book_app.py` - CLIのメインエントリーポイント
+* `books.py` - データロジックを持つBookCollectionクラス
+* `utils.py` - UIと入力用のヘルパー関数
+* `data.json` - サンプルの書籍データ
+* `tests/test_books.py` - pytestの初期テスト
+
+---
+
+## アプリの実行
 
 ```bash
 python book_app.py list
@@ -35,7 +35,7 @@ python book_app.py remove
 python book_app.py help
 ```
 
-## Running Tests
+## テストの実行
 
 ```bash
 python -m pytest tests/
@@ -43,8 +43,8 @@ python -m pytest tests/
 
 ---
 
-## Notes
+## メモ
 
-* Not production-ready (obviously)
-* Some code could be improved
-* Could add more commands later
+* 本番環境向けではない（当然）
+* 改善できる箇所がある
+* 後でコマンドを追加できる

@@ -1,30 +1,30 @@
-# Buggy Code Samples
+# バグありコードサンプル
 
-This folder contains intentionally buggy code for practicing code review and debugging with GitHub Copilot CLI.
+このフォルダには、GitHub Copilot CLIを使ったコードレビューとデバッグの練習用に、意図的にバグを入れたコードが含まれています。
 
-## Folder Structure
+## フォルダ構成
 
 ```
 buggy-code/
-├── js/                    # JavaScript examples
-│   ├── userService.js     # User management with 8 bugs
-│   └── paymentProcessor.js # Payment handling with 8 bugs
-└── python/                # Python examples
-    ├── user_service.py    # User management with 10 bugs
-    └── payment_processor.py # Payment handling with 12 bugs
+├── js/                    # JavaScriptの例
+│   ├── userService.js     # ユーザー管理（8バグ）
+│   └── paymentProcessor.js # 決済処理（8バグ）
+└── python/                # Pythonの例
+    ├── user_service.py    # ユーザー管理（10バグ）
+    └── payment_processor.py # 決済処理（12バグ）
 ```
 
-## Quick Start
+## クイックスタート
 
 ### JavaScript
 
 ```bash
 copilot
 
-# Security audit
+# セキュリティ監査
 > Review @samples/buggy-code/js/userService.js for security issues
 
-# Find all bugs
+# 全バグ橋出し
 > Find all bugs in @samples/buggy-code/js/paymentProcessor.js
 ```
 
@@ -33,42 +33,42 @@ copilot
 ```bash
 copilot
 
-# Security audit
+# セキュリティ監査
 > Review @samples/buggy-code/python/user_service.py for security issues
 
-# Find all bugs
+# 全バグ橋出し
 > Find all bugs in @samples/buggy-code/python/payment_processor.py
 ```
 
-## Bug Categories
+## バグの種類
 
-### Common to Both Languages
+### 共通のバグ（両言語）
 
-| Bug Type | Description |
-|----------|-------------|
-| SQL Injection | User input directly in SQL queries |
-| Hardcoded Secrets | API keys and passwords in source code |
-| Race Conditions | Shared state without proper synchronization |
-| Sensitive Data Logging | Passwords and card numbers in logs |
-| Missing Input Validation | No checks on user-provided data |
-| No Error Handling | Missing try/catch or try/except blocks |
-| Weak Password Comparison | Plain text or timing-vulnerable comparisons |
-| Missing Auth Checks | Operations without authorization verification |
+| バグの種類 | 説明 |
+|----------|--------|
+| SQLインジェクション | ユーザー入力が直接SQLクエリに埋め込まれる |
+| ハードコードされたシークレット | APIキーやパスワードがソースコード内に含まれる |
+| 競合状態 | 適切な同期なしの共有状態 |
+| 機密情報のログ | パスワードやカード番号がログに記録される |
+| 入力バリデーションなし | ユーザー入力にチェックがない |
+| エラーハンドリングなし | try/catchまたはtt/exceptがない |
+| 脆弱なパスワード比較 | 平文またはタイミングに脆弱な比較 |
+| 認証チェックなし | 認可検証なしの操作 |
 
-### Python-Specific Bugs
+### Python固有のバグ
 
-| Bug Type | Description |
-|----------|-------------|
-| Pickle Deserialization | `pickle.loads()` on untrusted data |
-| eval() Injection | User input passed to `eval()` |
-| Unsafe YAML Loading | `yaml.load()` without safe loader |
-| Shell Injection | User input in `os.system()` calls |
-| Weak Hashing | MD5 for password hashing |
-| Insecure Random | `random` module for security purposes |
+| バグの種類 | 説明 |
+|----------|--------|
+| Pickleデシリアライズ | 信頼できないデータに`pickle.loads()`を使用 |
+| eval()インジェクション | ユーザー入力を`eval()`に渡す |
+| 安全でないYAML読み込み | `yaml.load()`をsafeローダーなしで使用 |
+| シェルインジェクション | `os.system()`にユーザー入力を渡す |
+| 脆弱なハッシュ | パスワードのハッシュ化にMD5を使用 |
+| 不安全な乱数 | セキュリティ目的に`random`モジュールを使用 |
 
-## Practice Exercises
+## 練習問題
 
-1. **Security Audit**: Run a comprehensive security review and list all vulnerabilities by severity
-2. **Fix One Bug**: Pick a critical bug, get the fix from Copilot, understand why it works
-3. **Generate Tests**: Create tests that would catch these bugs before deployment
-4. **Refactor Safely**: Fix the SQL injection bugs while maintaining functionality
+1. **セキュリティ監査**: 包括的なセキュリティレビューを実行し、重大度別に脆弱性を列挙する
+2. **バグ1件を修正**: 重大なバグを選び、Copilotから修正方法を得て、なぜそれが有効か理解する
+3. **テストの生成**: デプロイ前にこれらのバグを捕捉するテストを作成する
+4. **安全なリファクタリング**: SQLインジェクションバグを機能を維持しながら修正する

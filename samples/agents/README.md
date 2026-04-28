@@ -1,8 +1,8 @@
-# Sample Agent Definitions
+# サンプルエージェント定義
 
-This folder contains some simple agent templates for GitHub Copilot CLI intended to help you get started using agents.
+このフォルダには、GitHub Copilot CLI向けのシンプルなエージェントテンプレートが含まれています。エージェントの使い始めのこうしに役立ててください。
 
-## Quick Start
+## クイックスタート
 
 ```bash
 # Copy an agent to your personal agents folder
@@ -12,23 +12,23 @@ cp hello-world.agent.md ~/.copilot/agents/
 cp python-reviewer.agent.md .github/agents/
 ```
 
-## Sample Files in This Folder
+## このフォルダに含まれるサンプルファイル
 
-| File | Description | Best For |
+| ファイル | 説明 | 最適な用途 |
 |------|-------------|----------|
-| `hello-world.agent.md` | Minimal example (11 lines) | Learning the format |
-| `python-reviewer.agent.md` | Python code quality reviewer | Code reviews, PEP 8, type hints |
-| `pytest-helper.agent.md` | Pytest testing specialist | Test generation, fixtures, edge cases |
+| `hello-world.agent.md` | 最小構成の例（11行） | フォーマットを学ぶ |
+| `python-reviewer.agent.md` | Pythonコード品質レビューアー | コードレビュー、PEP 8、型ヒント |
+| `pytest-helper.agent.md` | pytestテストのスペシャリスト | テスト生成、フィクスチャ、エッジケース |
 
-## Finding More Agents
+## さらなるエージェントを見つける
 
-- **[github/awesome-copilot](https://github.com/github/awesome-copilot)** - Official GitHub resources with community agents and instructions
+- **[github/awesome-copilot](https://github.com/github/awesome-copilot)** - コミュニティエージェントと指示ファイルを含むGitHub公式リソース
 
 ---
 
-## Agent File Format
+## エージェントファイルのフォーマット
 
-Each agent file requires YAML frontmatter with at least a `description` field:
+各エージェントファイルには、少なくとも`description`フィールドを含むYAMLフロントマターが必要です：
 
 ```markdown
 ---
@@ -42,33 +42,33 @@ tools: ["read", "edit", "search"]  # Optional: limit available tools
 Agent instructions go here...
 ```
 
-**Available YAML Properties:**
+**利用可能なYAMLプロパティ:**
 
-| Property | Required | Description |
-|----------|----------|-------------|
-| `description` | **Yes** | What the agent does |
-| `name` | No | Display name (defaults to filename) |
-| `tools` | No | List of allowed tools (omit = all). See aliases below. |
-| `target` | No | Limit to `vscode` or `github-copilot` only |
+| プロパティ | 必須 | 説明 |
+|----------|----------|--------|
+| `description` | **はい** | エージェントの機能 |
+| `name` | いいえ | 表示名（デフォルトはファイル名） |
+| `tools` | いいえ | 許可するツールのリスト（省略すると全て）。下記エイリアスを参照 |
+| `target` | いいえ | `vscode`または`github-copilot`のみに限定 |
 
-**Tool Aliases**: `read`, `edit`, `search`, `execute` (shell), `web`, `agent`
+**ツールエイリアス**: `read`、`edit`、`search`、`execute`（シェル）、`web`、`agent`
 
-> 💡 **Note**: The `model` property works in VS Code but is not yet supported in Copilot CLI.
+> 💡 **注記**: `model`プロパティはVS Codeでは機能しますが、Copilot CLIではまだサポートされていません。
 >
-> 📖 **Official docs**: [Custom agents configuration](https://docs.github.com/copilot/reference/custom-agents-configuration)
+> 📖 **公式ドキュメント**: [Custom agents configuration](https://docs.github.com/copilot/reference/custom-agents-configuration)
 
-## Agent File Locations
+## エージェントファイルの保存場所
 
-Agents can be stored in:
-- `~/.copilot/agents/` - Global agents available in all projects
-- `.github/agents/` - Project-specific agents
-- `.agent.md` files - VS Code-compatible format
+エージェントは以下の場所に保存できます：
+- `~/.copilot/agents/` - 全プロジェクトで利用できるグローバルエージェント
+- `.github/agents/` - プロジェクト内のエージェント
+- `.agent.md`ファイル - VS Code互換フォーマット
 
-Each agent is a separate file with the `.agent.md` extension.
+各エージェントは`.agent.md`拡張子を持つ別々のファイルです。
 
 ---
 
-## Usage Examples
+## 使用例
 
 ```bash
 # Start with a specific agent
@@ -91,16 +91,16 @@ copilot
 
 ---
 
-## Creating Your Own Agents
+## 独自エージェントを作成する
 
-1. Create a new file in `~/.copilot/agents/` with `.agent.md` extension
-2. Add YAML frontmatter with at least a `description` field
-3. Add a descriptive header (e.g., `# Security Agent`)
-4. Define the agent's expertise, standards, and behaviors
-5. Use the agent with `/agent` or `--agent <name>`
+1. `~/.copilot/agents/`内に`.agent.md`拡張子で新規ファイルを作成
+2. 少なくとも`description`フィールドを含むYAMLフロントマターを追加
+3. 説明的なヘッダーを追加（例：`# セキュリティエージェント`）
+4. エージェントの専門分野、標準、行動を定義する
+5. `/agent`または`--agent <名前>`でエージェントを使用する
 
-**Tips for effective agents:**
-- Be specific about expertise areas
-- Include code standards and patterns
-- Define what the agent checks for
-- Include output format preferences
+**効果的なエージェント作成のヒント:**
+- 専門分野を具体的に示す
+- コード標準やパターンを指定する
+- エージェントが確認する項目を定義する
+- 出力フォーマットの好みを包含する

@@ -1,8 +1,8 @@
-# Sample Skills
+# サンプルスキル
 
-Ready-to-use skill templates for GitHub Copilot CLI. Copy any skill folder to start using it immediately.
+すぐに使えるスキルテンプレートです。各スキルフォルダをコピーするだけですぐに利用できます。
 
-## Quick Start
+## クイックスタート
 
 ```bash
 # Copy a skill to your personal skills folder
@@ -12,18 +12,18 @@ cp -r hello-world ~/.copilot/skills/
 cp -r code-checklist .github/skills/
 ```
 
-## Available Skills
+## 利用可能なスキル
 
-| Skill | Description | Best For |
+| スキル | 説明 | 最適な用途 |
 |-------|-------------|----------|
-| `hello-world` | Minimal example (learning the format) | First-time skill creators |
-| `code-checklist` | Python code quality checklist (PEP 8, type hints, validation) | Consistent quality checks |
-| `pytest-gen` | Generate comprehensive pytest tests | Structured test generation |
-| `commit-message` | Conventional commit messages | Standardized git history |
+| `hello-world` | 最小構成の例（フォーマット学習用） | 初めてスキルを作る方 |
+| `code-checklist` | Pythonコード品質チェックリスト（PEP 8、型ヒント、バリデーション） | 一貫した品質チェック |
+| `pytest-gen` | 包拪pytestテストの生成 | 構造化されたテスト生成 |
+| `commit-message` | Conventional Commitメッセージ | 標準化されたgit履歴 |
 
-## How Skills Work
+## スキルの仕組み
 
-Skills are **automatically triggered** when your prompt matches the skill's `description` field. You don't need to invoke them manually.
+スキルは、プロンプトがスキルの`description`フィールドと一致すると**自動でトリガーされます**。手動で呼び出す必要はありません。
 
 ```bash
 copilot
@@ -42,38 +42,38 @@ You can also invoke skills directly:
 > /commit-message
 ```
 
-## Skill Structure
+## スキルの構成
 
-Each skill is a folder containing a `SKILL.md` file:
+各スキルは`SKILL.md`ファイルを含むフォルダです：
 
 ```
 skill-name/
-└── SKILL.md    # Required: Contains frontmatter + instructions
+└── SKILL.md    # 必須：フロントマターと指示を含む
 ```
 
-The `SKILL.md` file has YAML frontmatter with `name` and `description` (both required):
+`SKILL.md`ファイルには`name`と`description`の両方が必須なYAMLフロントマターが必要です：
 
 ```markdown
 ---
 name: my-skill
-description: What this skill does and when to use it
+description: このスキルの機能と使うタイミング
 ---
 
-# Skill Instructions
+# スキルの指示
 
-Your instructions here...
+指示内容をここに記載...
 ```
 
-## Finding More Skills
+## コミュニティスキルを見つける
 
-- **[github/awesome-copilot](https://github.com/github/awesome-copilot)** - Official GitHub resources with community skills
-- **`/plugin marketplace`** - Browse and install skills from within Copilot CLI
+- **[github/awesome-copilot](https://github.com/github/awesome-copilot)** - スキルのドキュメントと例を含むGitHub Copilot公式リソース
+- **`/plugin marketplace`** - Copilot CLI内からスキルを参照・インストール
 
-## Creating Your Own
+## 独自スキルを作る
 
-1. Create a folder: `mkdir ~/.copilot/skills/my-skill`
-2. Create `SKILL.md` with frontmatter
-3. Add your instructions
-4. Test by asking Copilot something that matches your description
+1. フォルダを作成: `mkdir ~/.copilot/skills/my-skill`
+2. `SKILL.md`をフロントマター付きで作成
+3. 指示を追加
+4. 自分のdescriptionと一致するプロンプトでCopilotに問いかけてテスト
 
-See [Chapter 05: Skills](../../05-skills/README.md) for detailed guidance.
+詳細は[Chapter 05: Skills](../../05-skills/README.md)を参照してください。

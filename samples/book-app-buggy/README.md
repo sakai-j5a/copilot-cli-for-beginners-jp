@@ -1,35 +1,35 @@
-# Book App - Buggy Version
+# 書籍アプリ - バグありバージョン
 
-This directory contains an intentionally buggy version of the book collection app for debugging exercises in Chapter 03.
+このディレクトリには、第03章のデバッグ演習用に、意図的にバグを入れた書籍コレクションアプリが含まれています。
 
-**Do NOT fix these bugs directly.** They exist so learners can practice using GitHub Copilot CLI to identify and debug issues.
+**これらのバグを直接修正しないでください。** 学習者がGitHub Copilot CLIを使って問題を特定・デバッグする練習のために存在します。
 
 ---
 
-## Intentional Bugs
+## 意図的なバグ
 
 ### books_buggy.py
 
-| # | Bug | Symptom |
-|---|-----|---------|
-| 1 | `find_book_by_title()` uses exact case match | Searching for "the hobbit" returns nothing even though "The Hobbit" exists |
-| 2 | `save_books()` doesn't use context manager | File handle leak; no error handling for permission issues |
-| 3 | `add_book()` has no year validation | Accepts negative years, year 0, and years far in the future |
-| 4 | `remove_book()` uses `in` substring check | Removing "Dune" also matches and removes "Dune Messiah" |
-| 5 | `mark_as_read()` marks ALL books as read | Loop variable bug - iterates all books instead of just the match |
-| 6 | `find_by_author()` requires exact match | "Tolkien" won't find "J.R.R. Tolkien" (no partial matching) |
+| # | バグ | 症状 |
+|---|-----|------|
+| 1 | `find_book_by_title()`が大文字小文字を区別して一致させる | 「the hobbit」で検索しても「The Hobbit」が存在するのに結果が返らない |
+| 2 | `save_books()`がコンテキストマネージャを使わない | ファイルハンドルのリーク；パーミッションエラーのハンドリングなし |
+| 3 | `add_book()`に年のバリデーションがない | 負の年、年0、将来の年を受け付けてしまう |
+| 4 | `remove_book()`が`in`で部分一致する | 「Dune」を削除すると「Dune Messiah」も一致して削除される |
+| 5 | `mark_as_read()`が全所の本を既読にする | ループ変数のバグ - 一致した本だけでなく全本をイテレートしてしまう |
+| 6 | `find_by_author()`が完全一致を要求する | 「Tolkien」で「J.R.R. Tolkien」が見つからない（部分一致なし） |
 
 ### book_app_buggy.py
 
-| # | Bug | Symptom |
-|---|-----|---------|
-| 7 | `show_books()` numbering starts at 0 | Books display as "0. ...", "1. ..." instead of "1. ...", "2. ..." |
-| 8 | `handle_add()` accepts empty title/author | Can add books with blank titles and authors |
-| 9 | `handle_remove()` always prints success | Says "Book removed" even when the book wasn't found |
+| # | バグ | 症状 |
+|---|-----|------|
+| 7 | `show_books()`の番号が0始まり | ブックが「0. ...」「1. ...」と表示され、「1. ...」「2. ...」にならない |
+| 8 | `handle_add()`が空のタイトル/著者を受け付ける | タイトル・著者が空白のまま本を登録できてしまう |
+| 9 | `handle_remove()`が常に成功と言う | 本が見つからなくても「本を削除しました」と表示する |
 
 ---
 
-## How to Use in Chapter 03
+## 第03章での使い方
 
 ```bash
 copilot

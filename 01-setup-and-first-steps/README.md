@@ -1,40 +1,40 @@
 ![Chapter 01: First Steps](images/chapter-header.png)
 
-> **Watch AI find bugs instantly, explain confusing code, and generate working scripts. Then learn three different ways to use GitHub Copilot CLI.**
+> **AIがバグを瞬時に発見し、難解なコードを解説し、動作するスクリプトを生成する様子をご覧ください。その後、GitHub Copilot CLIの3種類の使い方を習得します。**
 
-This chapter is where the magic starts! You'll experience firsthand why developers describe GitHub Copilot CLI as having a senior engineer on speed dial. You'll watch AI find security bugs in seconds, get complex code explained in plain English, and generate working scripts instantly. Then you'll master the three interaction modes (Interactive, Plan, and Programmatic) so you know exactly which one to use for any task.
+この章からが本番の始まりです！開発者がGitHub Copilot CLIを「シニアエンジニアがすぐそこにいるよう」と表現する理由を体感してください。AIがセキュリティバグを数秒で発見し、複雑なコードを平易な英語で解説し、動作するスクリプトを即座に生成する様子を目撃します。その後、3つのインタラクションモード（Interactive、Plan、Programmatic）をマスターして、どのタスクにどのモードを使うかを理解します。
 
-> ⚠️ **Prerequisites**: Make sure you've completed **[Chapter 00: Quick Start](../00-quick-start/README.md)** first. You'll need GitHub Copilot CLI installed and authenticated before running the demos below.
+> ⚠️ **前提条件**: **[第00章: クイックスタート](../00-quick-start/README.md)**を完了してください。以下のデモを実行する前に、GitHub Copilot CLIがインストールされ、認証されている必要があります。
 
-## 🎯 Learning Objectives
+## 🎯 学習目標
 
-By the end of this chapter, you'll be able to:
+この章を終えると、以下のことができるようになります：
 
-- Experience the productivity boost GitHub Copilot CLI provides through hands-on demos
-- Choose the right mode (Interactive, Plan, or Programmatic) for any task
-- Use slash commands to control your sessions
+- ハンズオンデモを通じてGitHub Copilot CLIが提供する生産性向上を体感する
+- タスクに応じて適切なモード（Interactive、Plan、Programmatic）を選択する
+- スラッシュコマンドでセッションを制御する
 
-> ⏱️ **Estimated Time**: ~45 minutes (15 min reading + 30 min hands-on)
+> ⏱️ **所要時間の目安**: 約45分（15分読む + 30分ハンズオン）
 
 ---
 
-# Your First Copilot CLI Experience
+# 最初のCopilot CLI体験
 
 <img src="images/first-copilot-experience.png" alt="Developer sitting at a desk with code on the monitor and glowing particles representing AI assistance" width="800"/>
 
-Jump right in and see what Copilot CLI can do.
+さっそく飛び込んで、Copilot CLIの力を体感しましょう。
 
 ---
 
-## Getting Comfortable: Your First Prompts
+## 気軽に始める: 最初のプロンプト
 
-Before diving into the impressive demos, let's start with some simple prompts you can try right now. **No code repository needed**! Just open a terminal and start Copilot CLI:
+本格的なデモに入る前に、今すぐ試せるシンプルなプロンプトから始めましょう。**コードリポジトリは必要ありません！** ターミナルを開いてCopilot CLIを起動するだけです：
 
 ```bash
 copilot
 ```
 
-Try these beginner-friendly prompts:
+これらの初心者向けプロンプトを試してみてください：
 
 ```
 > Explain what a dataclass is in Python in simple terms
@@ -46,641 +46,638 @@ Try these beginner-friendly prompts:
 > Give me 5 best practices for writing clean Python code
 ```
 
-Don't use Python? No problem! Just ask questions about your language of choice.
+Pythonを使わない方でも大丈夫です！お好みの言語について質問してください。
 
-Notice how natural it feels. Just ask questions like you would to a colleague. When you're done exploring, type `/exit` to leave the session.
+自然に感じるはずです。同僚に話しかけるように質問してください。探索が終わったら、`/exit`と入力してセッションを終了します。
 
-**The key insight**: GitHub Copilot CLI is conversational. You don't need special syntax to get started. Just ask questions in plain English.
+**重要なポイント**: GitHub Copilot CLIは会話型です。始めるのに特別な構文は必要ありません。英語で自然に質問するだけです。
 
-## See It In Action
+## 実際に見てみる
 
-Now let's see why developers are calling this "having a senior engineer on speed dial."
+なぜ開発者がこれを「シニアエンジニアがすぐそこにいるよう」と呼ぶのか見てみましょう。
 
-> 📖 **Reading the Examples**: Lines starting with `>` are prompts you type inside an interactive Copilot CLI session. Lines without a `>` prefix are shell commands you run in your terminal.
+> 📖 **例の読み方**: `>`で始まる行はCopilot CLIのインタラクティブセッション内でタイプするプロンプトです。`>`のない行はターミナルで実行するシェルコマンドです。
 
-> 💡 **About Example Outputs**: The sample outputs shown throughout this course are illustrative. Because Copilot CLI's responses vary each time, your results will differ in wording, formatting, and detail. Focus on the *type* of information returned, not the exact text.
+> 💡 **サンプル出力について**: コース全体で示されているサンプル出力はあくまで参考例です。Copilot CLIの応答は毎回異なるため、内容の表現やフォーマット、詳細度はここで示したものと異なります。表示されている正確なテキストではなく、返ってくる*情報の種類*に注目してください。
 
-### Demo 1: Code Review in Seconds
+### デモ1: 数秒でコードレビュー
 
-The course includes sample files with intentional code quality issues. If you're working on your local machine and haven't already cloned the repo, please run the `git clone` command below, navigate to the `copilot-cli-for-beginners` folder, and then run the `copilot` command.
+このコースにはコード品質の問題を意図的に含むサンプルファイルが含まれています。ローカルマシンで作業していてリポジトリをまだクローンしていない場合は、下記の`git clone`コマンドを実行し、`copilot-cli-for-beginners`フォルダに移動してから`copilot`コマンドを実行してください。
 
 ```bash
-# Clone the course repository if you're working locally and haven't already
+# ローカルで作業中でまだクローンしていない場合はリポジトリをクローン
 git clone https://github.com/github/copilot-cli-for-beginners
 cd copilot-cli-for-beginners
 
-# Start Copilot
+# Copilotを起動
 copilot
 ```
 
-Once inside the interactive Copilot CLI session, run the following:
+Copilot CLIのインタラクティブセッション内に入ったら、次を実行してください：
 
 ```
-> Review @samples/book-app-project/book_app.py for code quality issues and suggest improvements
+> @samples/book-app-project/book_app.py のコード品質の問題をレビューして、改善点を提案してください
 ```
 
-> 💡 **What's the `@` symbol used for?** The `@` symbol tells Copilot CLI to read a file. You'll learn all about this in Chapter 02. For now, just copy the command exactly as shown.
+> 💡 **`@`記号は何に使いますか？** `@`記号はCopilot CLIにファイルを読み込むよう指示します。詳細はChapter 02で学びます。今はコマンドをそのままコピーしてください。
 
 ---
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎬 動作を確認！</summary>
 
 ![Code Review Demo](images/code-review-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*デモの出力は異なります。実際のモデル、ツール、回答はここで示したものと異なる場合があります。*
 
 </details>
 
 ---
 
-**The takeaway**: A professional code review in seconds. Manual review would take...well...more time than that!
+**要点**: 数秒でプロのコードレビュー完了。手動レビューはもっと時間がかかります！
 
 ---
 
-### Demo 2: Explain Confusing Code
+### デモ2: 難解なコードの解説
 
-Ever stared at code wondering what it does? Try this in your Copilot CLI session:
+コードを見て何をしているのか悩んだことは？Copilot CLIセッションでこれを試してみてください：
 
 ```
-> Explain what @samples/book-app-project/books.py does in simple terms
+> @samples/book-app-project/books.py が何をするか、わかりやすく説明してください
 ```
 
 ---
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎬 動作を確認！</summary>
 
 ![Explain Code Demo](images/explain-code-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*デモの出力は異なります。実際のモデル、ツール、回答はここで示したものと異なる場合があります。*
 
 </details>
 
 ---
 
-**What happens**: (your output will differ) Copilot CLI reads the file, understands the code, and explains it in plain English.
+**出力例**（実際の出力は異なります）: Copilot CLIがファイルを読み込み、コードを理解して平易な日本語で解説します。
 
 ```
-This is a book collection management module using Python dataclasses.
+これはPythonのdataclassを使った書籍コレクション管理モジュールです。
 
-Think of it like a digital bookshelf:
-- Book is a dataclass - a simple way to store book information (title, author, year, read status)
-- BookCollection manages the entire collection and handles saving/loading
+デジタルの本棚をイメージしてください：
+- Book はdataclass — タイトル・著者・年・既読状態などの書籍情報を格納するシンプルな構造
+- BookCollection はコレクション全体を管理し、保存・読み込みを処理する
 
-Key components:
+主なコンポーネント：
 
-1. @dataclass decorator (line 8)
-   - Automatically creates __init__, __repr__, etc.
-   - Clean way to define data structures in Python
+1. @dataclass デコレーター（8行目）
+   - __init__、__repr__ などを自動生成する
+   - Pythonでデータ構造を定義するクリーンな方法
 
-2. BookCollection class (line 16)
-   - Maintains a list of Book objects
-   - Handles persistence with JSON file I/O
-   - load_books() reads from data.json
-   - save_books() writes to data.json using asdict()
+2. BookCollection クラス（16行目）
+   - Book オブジェクトのリストを保持する
+   - JSONファイルI/Oで永続化を処理する
+   - load_books() は data.json から読み込む
+   - save_books() は asdict() を使って data.json に書き込む
 
-3. Book operations:
-   - add_book() - creates and saves new books
-   - find_book_by_title() - searches collection
-   - mark_as_read() - updates read status
-   - find_by_author() - filters by author name
+3. 書籍操作：
+   - add_book() — 新しい書籍を作成して保存する
+   - find_book_by_title() — コレクションを検索する
+   - mark_as_read() — 既読状態を更新する
+   - find_by_author() — 著者でフィルタリングする
 
-Common pattern: Read from JSON → Work with Python objects → Write back to JSON
+一般的なパターン: JSON から読み込む → Python オブジェクトで処理する → JSON に書き戻す
 ```
 
-**The takeaway**: Complex code explained like a patient mentor would explain it.
+**要点**: 忍耐強いメンターが解説してくれるような感覚で、複雑なコードが理解できます。
 
 ---
 
-### Demo 3: Generate Working Code
+### デモ3: 動作するコードの生成
 
-Need a function you'd otherwise spend 15 minutes googling? Still in your session:
+15分ほどかけてGoogleで調べるような関数が必要ですか？セッションでこれを試してみてください：
 
 ```
-> Write a Python function that takes a list of books and returns statistics: 
-  total count, number read, number unread, oldest and newest book
+> 書籍のリストを受け取って、統計情報（合計冊数・既読数・未読数・最古と最新の書籍）を返すPython関数を書いてください
 ```
 
 ---
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎬 動作を確認！</summary>
 
 ![Generate Code Demo](images/generate-code-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*デモの出力は異なります。実際のモデル、ツール、回答はここで示したものと異なる場合があります。*
 
 </details>
 
 ---
 
-**What happens**: A complete, working function in seconds that you can copy-paste-run.
+**要点**: 数秒で完成するコピペ実行可能な関数。そしてずっと同じセッションで作業を続けていました。
 
-When you're done exploring, exit the session:
+探索が終わったら、セッションを終了します：
 
 ```
 > /exit
 ```
 
-**The takeaway**: Instant gratification, and you stayed in one continuous session the whole time.
+**要点**: 即座に結果が得られ、しかも一度もコマンドラインから離れずに済みました。
 
 ---
 
-# Modes and Commands
+# モードとコマンド
 
 <img src="images/modes-and-commands.png" alt="Futuristic control panel with glowing screens, dials, and equalizers representing Copilot CLI modes and commands" width="800"/>
 
-You've just seen what Copilot CLI can do. Now let's understand *how* to use these capabilities effectively. The key is knowing which of the three interaction modes to use for different situations.
+Copilot CLIの使い方がわかりました。次にこれらの機能を効果的に活用する方法を理解しましょう。鍵は、異なる状況に応じてどの3つのインタラクションモードを使うか知ることです。
 
-> 💡 **Note**: Copilot CLI also has an **Autopilot** mode where it works through tasks without waiting for your input. It's powerful but requires granting full permissions and uses premium requests autonomously. This course focuses on the three modes below. We'll point you to Autopilot once you're comfortable with the basics.
+> 💡 **注記**: Copilot CLIには**Autopilot**モードもあり、入力を待たずにタスクを進めます。機能は強力ですが、全権限の許可が必要で、プレミアムリクエストを自律的に消費します。このコースでは下記の3つのモードに焦点を当てます。基本に慣れたらAutopilotについても視野に入れてみてください。
 
 ---
 
-## 🧩 Real-World Analogy: Dining Out
+## 🧩 現実世界のアナロジー: 外食
 
-Think of using GitHub Copilot CLI like going out to eat. From planning the trip to placing your order, different situations call for different approaches:
+レストランに行くような感覚で、考えてみてください。計画から注文まで、状況に応じて適切なアプローチがあります：
 
-| Mode | Dining Analogy | When to Use |
+| モード | 外食のアナロジー | 使い所 |
 |------|----------------|-------------|
-| **Plan** | GPS route to the restaurant | Complex tasks - map out the route, review stops, agree on the plan, then drive |
-| **Interactive** | Talking to the waiter | Exploration and iteration - ask questions, customize, get real-time feedback |
-| **Programmatic** | Drive-through ordering | Quick, specific tasks - stay in your environment, get a result fast |
+| **Plan** | レストランまでのGPSナビ | 複雑なタスク - ルートを確認し、ストップをレビューし、同意してから走る |
+| **Interactive** | ウェイターと話す | 探索と反復 - 質問し、カスタマイズし、リアルタイムのフィードバックを得る |
+| **Programmatic** | ドライブスルーで注文 | スピーディーな特定タスク - 環境にいながら結果だけを得る |
 
-Just like dining out, you'll naturally learn when each approach feels right.
+外食と同じように、どのアプローチが自然に感じるかは使いながら覚えていけます。
 
 <img src="images/ordering-food-analogy.png" alt="Three Ways to Use GitHub Copilot CLI - Plan Mode (GPS route to restaurant), Interactive Mode (talking to waiter), Programmatic Mode (drive-through)" width="800"/>
 
-*Choose your mode based on the task: Plan for mapping it out first, Interactive for back-and-forth collaboration, Programmatic for quick one-shot results*
+*タスクに応じてモードを選択: Planは事前に全体像を把握、Interactiveは対話的なコラボレーション、Programmaticはすばやい一発実行*
 
-### Which Mode Should I Start With?
+### どのモードから始めるか？
 
-**Start with Interactive mode.** 
-- You can experiment and ask follow-up questions
-- Context builds naturally through conversation
-- Mistakes are easy to correct with `/clear`
+**Interactiveモードから始めましょう。**
+- 試行錯誤したり、フォローアップ質問をしたりできる
+- 会話を通じて自然にコンテキストが深まる
+- `/clear`で間違いを簡単に修正できる
 
-Once you're comfortable, try:
-- **Programmatic mode** (`copilot -p "<your prompt>"`) for quick, one-off questions
-- **Plan mode** (`/plan`) when you need to plan things out in more detail before coding
+慣れてきたら試してみましょう：
+- **Programmaticモード** (`copilot -p "<プロンプト>"`)：スピーディーな一回限りの質問向け
+- **Planモード** (`/plan`)：コードを書く前に詳細な計画が必要なとき
 
 ---
 
-## The Three Modes
+## 3つのモード
 
-### Mode 1: Interactive Mode (start here)
+### モード1: Interactiveモード（まずここから）
 
 <img src="images/interactive-mode.png" alt="Interactive Mode - Like talking to a waiter who can answer questions and adjust the order" width="250"/>
 
-**Best for**: Exploration, iteration, multi-turn conversations. Like talking to a waiter who can answer questions, take feedback, and adjust the order on the fly.
+**最適な用途**: 探索、反復、マルチターンの会話。貨を問いながら調整してくれるウェイターと話すような感覚です。
 
-Start an interactive session:
+インタラクティブセッションを開始する：
 
 ```bash
 copilot
 ```
 
-As you've seen up to this point, you'll see a prompt where you can type naturally. To get help on available commands, just type:
+ここまで見てきたように、自然にタイプできるプロンプトが表示されます。利用可能なコマンドのヘルプを表示するには、入力するだけです：
 
 ```
 > /help
 ```
 
-**Key insight**: Interactive mode maintains context. Each message builds on previous ones, just like a real conversation.
+**重要なポイント**: Interactiveモードはコンテキストを維持します。各メッセージは前のメッセージに基づき、本物の会話のように展開します。
 
-#### Interactive Mode Example
+#### Interactiveモードの例
 
 ```bash
 copilot
 
-> Review @samples/book-app-project/utils.py and suggest improvements
+> @samples/book-app-project/utils.py をレビューして改善点を提案してください
 
-> Add type hints to all functions
+> すべての関数に型ヒントを追加してください
 
-> Make the error handling more robust
+> エラー処理をより堅牢にしてください
 
 > /exit
 ```
 
-Notice how each prompt builds on the previous answer. You're having a conversation, not starting over each time.
+各プロンプトが前の回答を引き継いでいることに注目してください。毎回最初からやり直すのではなく、会話を続けています。
 
 ---
 
-### Mode 2: Plan Mode
+### モード2: Planモード
 
 <img src="images/plan-mode.png" alt="Plan Mode - Like planning a route before a trip using GPS" width="250"/>
 
-**Best for**: Complex tasks where you want to review the approach before execution. Similar to planning a route before a trip using GPS.
+**最適な用途**: 実行前にアプローチを確認したい複雑なタスク。GPSで旅行ルートを計画してから出発するような感覚です。
 
-Plan mode helps you create a step-by-step plan before writing any code. Use the `/plan` command, press **Shift+Tab** to cycle into Plan Mode:
+Planモードはコードを書く前に段階的な計画を作るのに役立ちます。`/plan`コマンドを使うか、**Shift+Tab**でPlanモードに切り替えます：
 
 ```bash
 copilot
 
-> /plan Add a "mark as read" command to the book app
+> /plan 書籍アプリに「既読にする」コマンドを追加する
 ```
 
-> 💡 **Tip**: **Shift+Tab** cycles between modes: Interactive → Plan → Autopilot. Press it anytime during an interactive session to switch modes without typing a command.
+> 💡 **ヒント**: **Shift+Tab**でモードを切り替えます: Interactive → Plan → Autopilot。インタラクティブセッション中にいつでも押してモードを切り替えられます。
 
-You can also launch Copilot CLI directly in plan mode using the `--plan` flag:
+`--plan`フラグを使ってPlanモードで直接起動することもできます：
 
 ```bash
 copilot --plan
 ```
 
-**Plan mode output:** (your output may differ)
+**Planモードの出力例**（実際の出力は異なります）:
 
 ```
-📋 Implementation Plan
+📋 実装計画
 
-Step 1: Update the command handler in book_app.py
-  - Add new elif branch for "mark" command
-  - Create handle_mark_as_read() function
+ステップ1: book_app.py のコマンドハンドラーを更新する
+  - "mark" コマンド用の新しい elif ブランチを追加する
+  - handle_mark_as_read() 関数を作成する
 
-Step 2: Implement the handler function
-  - Prompt user for book title
-  - Call collection.mark_as_read(title)
-  - Display success/failure message
+ステップ2: ハンドラー関数を実装する
+  - ユーザーに書籍タイトルを入力させる
+  - collection.mark_as_read(title) を呼び出す
+  - 成功・失敗メッセージを表示する
 
-Step 3: Update help text
-  - Add "mark" to available commands list
-  - Document the command usage
+ステップ3: ヘルプテキストを更新する
+  - 利用可能なコマンド一覧に "mark" を追加する
+  - コマンドの使い方を説明する
 
-Step 4: Test the flow
-  - Add a book
-  - Mark it as read
-  - Verify status changes in list output
+ステップ4: フローをテストする
+  - 書籍を追加する
+  - 既読にする
+  - 一覧表示でステータスが変わったことを確認する
 
-Proceed with implementation? [Y/n]
+実装を進めますか？ [Y/n]
 ```
 
-**Key insight**: Plan mode lets you review and modify the approach before any code is written. Once a plan is complete, you can even tell Copilot CLI to save it to a file for later reference. For example, "Save this plan to `mark_as_read_plan.md`" would create a markdown file with the plan details.
+**重要なポイント**: Planモードではコードが書かれる前にアプローチを確認・修正できます。計画が完成したら、ファイルに保存するよう指示することもできます。例えば「この計画を`mark_as_read_plan.md`に保存して」と言うと、計画の詳細をMarkdownファイルに書き出してくれます。
 
-> 💡 **Want something more complex?** Try: `/plan Add search and filter capabilities to the book app`. Plan mode scales from simple features to full applications.
+> 💡 **もっと複雑なことを試したい方へ**: `/plan 書籍アプリに検索・フィルタリング機能を追加する`を試してみてください。Planモードはシンプルな機能からフルアプリケーションまでスケールします。
 
-> 📚 **Autopilot mode**: You may have noticed Shift+Tab cycles through a third mode called **Autopilot**. In autopilot mode, Copilot works through an entire plan without waiting for your input after each step — like handing a task to a colleague and saying "let me know when you're finished." The typical workflow is plan → accept → autopilot, which means you need to be good at writing plans first. You can also launch directly into autopilot with `copilot --autopilot`. Get comfortable with Interactive and Plan modes first, then see the [official docs](https://docs.github.com/copilot/concepts/agents/copilot-cli/autopilot) when you're ready.
+> 📚 **Autopilotモード**: Shift+Tabが**Autopilot**という3つ目のモードを経由することに気づいた方もいるでしょう。Autopilotモードでは、各ステップで入力を待たずにCopilotが計画全体を実行します。まるで同僚にタスクを渡して「終わったら教えて」と言うような感覚です。一般的なワークフローはplan → accept → autopilotで、まず良い計画を書けるようになることが前提です。`copilot --autopilot`でautopilotに直接起動することもできます。まずInteractiveとPlanモードに慣れてから、準備ができたら[公式ドキュメント](https://docs.github.com/copilot/concepts/agents/copilot-cli/autopilot)を参照してください。
 
 ---
 
-### Mode 3: Programmatic Mode
+### モード3: Programmaticモード
 
 <img src="images/programmatic-mode.png" alt="Programmatic Mode - Like using a drive-through for a quick order" width="250"/>
 
-**Best for**: Automation, scripts, CI/CD, single-shot commands. Like using a drive-through for a quick order without needing to talk to a waiter.
+**最適な用途**: 自動化、スクリプト、CI/CD、一回限りのコマンド。ウェイターなしですぐ注文するドライブスルーのような感覚です。
 
-Use the `-p` flag for one-time commands that don't need interaction:
+`-p`フラグでインタラクション不要の一回限りコマンドを実行する：
 
 ```bash
-# Generate code
-copilot -p "Write a function that checks if a number is even or odd"
+# コード生成
+copilot -p "数が偶数か奇数かを判定する関数を書いてください"
 
-# Get quick help
-copilot -p "How do I read a JSON file in Python?"
+# クイックヘルプ
+copilot -p "PythonでJSONファイルを読み込む方法を教えてください"
 ```
 
-**Key insight**: Programmatic mode gives you a quick answer and exits. No conversation, just input → output.
+**重要なポイント**: Programmaticモードは迅速に回答して終了します。会話はなく、入力 → 出力のみです。
 
 <details>
-<summary>📚 <strong>Going Further: Using Programmatic Mode in Scripts</strong> (click to expand)</summary>
+<summary>📚 <strong>応用編: スクリプトでProgrammaticモードを活用する</strong>（クリックで展開）</summary>
 
-Once you're comfortable, you can use `-p` in shell scripts:
+慣れてきたら、`-p`をシェルスクリプトで使えます：
 
 ```bash
 #!/bin/bash
 
-# Generate commit messages automatically
-COMMIT_MSG=$(copilot -p "Generate a commit message for: $(git diff --staged)")
+# コミットメッセージを自動生成
+COMMIT_MSG=$(copilot -p "以下の変更内容のコミットメッセージを生成してください: $(git diff --staged)")
 git commit -m "$COMMIT_MSG"
 
-# Review a file
-copilot --allow-all -p "Review @myfile.py for issues"
+# ファイルをレビュー
+copilot --allow-all -p "@myfile.py の問題をレビューしてください"
 ```
-> ⚠️ **About `--allow-all`**: This flag skips all permission prompts, letting Copilot CLI read files, run commands, and access URLs without asking first. This is necessary for programmatic mode (`-p`) since there's no interactive session to approve actions. Only use `--allow-all` with prompts you've written yourself and in directories you trust. Never use it with untrusted input or in sensitive directories.
+> ⚠️ **`--allow-all`について**: このフラグは全権限プロンプトをスキップして、Copilot CLIが事前確認なしにファイル読み込み、コマンド実行、URL アクセスを行えるようにします。Programmaticモード（`-p`）ではインタラクティブセッションでの承認ができないため必要です。自分で書いたプロンプトと信頼できるディレクトリでのみ使用してください。信頼できない入力や機密ディレクトリでは使わないでください。
 
 </details>
 
 ---
 
-## Essential Slash Commands
+## 主要なスラッシュコマンド
 
-These commands are great to learn initially as you're getting started with Copilot CLI:
+Copilot CLIを始める際に最初に覚えておくと便利なコマンドです：
 
-| Command | What It Does | When to Use |
+| コマンド | 機能 | 使い所 |
 |---------|--------------|-------------|
-| `/ask` | Ask a quick question without it affecting your conversation history | When you want a quick answer without derailing your current task |
-| `/clear` | Clear conversation and start fresh | When switching topics |
-| `/help` | Show all available commands | When you forget a command |
-| `/model` | Show or switch AI model | When you want to change the AI model |
-| `/plan` | Plan your work out before coding | For more complex features |
-| `/research` | Deep research using GitHub and web sources | When you need to investigate a topic before coding |
-| `/exit` | End the session | When you're done |
+| `/ask` | 会話履歴に影響せず、クイックに質問する | 現在の作業を逃さずにサッと答えが欲しいとき |
+| `/clear` | 会話をクリアしてリセット | トピックを切り替えるとき |
+| `/help` | 利用可能な全コマンドを表示 | コマンドを忘れたとき |
+| `/model` | AIモデルの表示または切り替え | AIモデルを変えたいとき |
+| `/plan` | コーディング前に作業を計画する | 複雑な機能向け |
+| `/research` | GitHubとWebソースを使った深い調査 | コードを書く前にトピックを調査するとき |
+| `/exit` | セッション終了 | 作業完了時 |
 
-> 💡 **`/ask` vs regular chat**: Normally every message you send becomes part of the ongoing conversation and affects future responses. `/ask` is an "off the record" shortcut — perfect for quick one-off questions like `/ask What does YAML mean?` without polluting your session context.
+> 💡 **`/ask`と途中の会話の違い**: 通常、送信したメッセージは続く会話の一部になり、以後の応答に影響します。`/ask`は「オフレコード」のショートカットで、`/ask What does YAML mean?`のような一回限りの質問に最適です。セッションコンテキストを汚染することなくクイックに質問できます。
 
-That's it for getting started! As you become comfortable, you can explore additional commands.
+最初はこれだけで充分です！慣れてきたら、追加コマンドを探索できます。
 
-> 📚 **Official Documentation**: [CLI command reference](https://docs.github.com/copilot/reference/cli-command-reference) for the complete list of commands and flags.
+> 📚 **公式ドキュメント**: 全コマンドとフラグの完全な一覧は[CLIコマンドリファレンス](https://docs.github.com/copilot/reference/cli-command-reference)を参照。
 
 <details>
-<summary>📚 <strong>Additional Commands</strong> (click to expand)</summary>
+<summary>📚 <strong>追加コマンド</strong>（クリックで展開）</summary>
 
-> 💡 The essential commands above cover a lot of what you'll do on a daily use. This reference is here for when you're ready to explore more.
+> 💡 上記の必須コマンドは日常利用の多くをカバーしています。さらに探索したくなったときのリファレンスです。
 
-### Agent Environment
+### エージェント環境
 
-| Command | What It Does |
-|---------|--------------|
-| `/agent` | Browse and select from available agents |
-| `/env` | Show loaded environment details — what instructions, MCP servers, skills, agents, and plugins are active |
-| `/init` | Initialize Copilot instructions for your repository |
-| `/mcp` | Manage MCP server configuration |
-| `/skills` | Manage skills for enhanced capabilities |
+| コマンド | 機能 |
+|---------|------|
+| `/agent` | 利用可能なAgentを参照・選択 |
+| `/env` | 読み込み済み環境の詳細を表示 — 有効な指示、MCPサーバー、Skills、Agents、Pluginsの一覧 |
+| `/init` | リポジトリ用のCopilot指示を初期化 |
+| `/mcp` | MCPサーバーの設定を管理 |
+| `/skills` | 拡張機能のためのSkillsを管理 |
 
-> 💡 Agents are covered in [Chapter 04](../04-agents-custom-instructions/README.md), skills are covered in [Chapter 05](../05-skills/README.md), and MCP servers are covered in [Chapter 06](../06-mcp-servers/README.md).
+> 💡 Agentsは[Chapter 04](../04-agents-custom-instructions/README.md)、Skillsは[Chapter 05](../05-skills/README.md)、MCPサーバーは[Chapter 06](../06-mcp-servers/README.md)でカバーしています。
 
-### Models and Subagents
+### モデルとサブエージェント
 
-| Command | What It Does |
-|---------|--------------|
-| `/delegate` | Hand off task to GitHub Copilot cloud agent |
-| `/fleet` | Split a complex task into parallel subtasks for faster completion |
-| `/model` | Show or switch AI model |
-| `/tasks` | View background subagents and detached shell sessions |
+| コマンド | 機能 |
+|---------|------|
+| `/delegate` | タスクをGitHub Copilotクラウドエージェントに引き渡す |
+| `/fleet` | 複雑なタスクを並列サブタスクに分割して高速完了 |
+| `/model` | AIモデルの表示または切り替え |
+| `/tasks` | バックグラウンドのサブエージェントとデタッチされたシェルセッションを表示 |
 
-### Code
+### コード
 
-| Command | What It Does |
-|---------|--------------|
-| `/diff` | Review the changes made in the current directory |
-| `/pr` | Operate on pull requests for the current branch |
-| `/research` | Run deep research investigation using GitHub and web sources |
-| `/review` | Run the code-review agent to analyze changes |
-| `/terminal-setup` | Enable multiline input support (shift+enter and ctrl+enter) |
+| コマンド | 機能 |
+|---------|------|
+| `/diff` | 現在のディレクトリの変更をレビュー |
+| `/pr` | 現在のブランチのPRを操作 |
+| `/research` | GitHubとWebソースを使った深い調査 |
+| `/review` | コードレビューエージェントを実行して変更を分析 |
+| `/terminal-setup` | 複数行入力サポートを有効化（shift+enterとctrl+enter） |
 
-### Permissions
+### 権限
 
-| Command | What It Does |
-|---------|--------------|
-| `/add-dir <directory>` | Add a directory to allowed list |
-| `/allow-all [on|off|show]` | Auto-approve all permission prompts; use `on` to enable, `off` to disable, `show` to check current status |
-| `/yolo` | Quick alias for `/allow-all on` — auto-approves all permission prompts. |
-| `/cwd`, `/cd [directory]` | View or change working directory |
-| `/list-dirs` | Show all allowed directories |
+| コマンド | 機能 |
+|---------|------|
+| `/add-dir <directory>` | ディレクトリを許可リストに追加 |
+| `/allow-all [on\|off\|show]` | 全権限プロンプトを自動承認。`on`で有効化、`off`で無効化、`show`で現在状態確認 |
+| `/yolo` | `/allow-all on`のクイックエイリアス — 全権限プロンプトを自動承認 |
+| `/cwd`, `/cd [directory]` | 作業ディレクトリの表示または変更 |
+| `/list-dirs` | 許可済みディレクトリを全表示 |
 
-> ⚠️ **Use with caution**: `/allow-all` and `/yolo` skip confirmation prompts. Great for trusted projects, but be careful with untrusted code.
+> ⚠️ **使用には注意**: `/allow-all`と`/yolo`は確認プロンプトをスキップします。信頼済みプロジェクトには便利ですが、未知のコードには注意してください。
 
-### Session
+### セッション
 
-| Command | What It Does |
-|---------|--------------|
-| `/clear` | Abandons the current session (no history saved) and starts a fresh conversation |
-| `/compact` | Summarize conversation to reduce context usage |
-| `/context` | Show context window token usage and visualization |
-| `/new` | Ends the current session (saving it to history for search/resume) and starts a fresh conversation. |
-| `/resume` | Switch to a different session (optionally specify session ID) |
-| `/rename` | Rename the current session (omit the name to auto-generate one) |
-| `/rewind` | Open a timeline picker to roll back to any earlier point in the conversation |
-| `/usage` | Display session usage metrics and statistics |
-| `/session` | Show session info and workspace summary |
-| `/share` | Export session as a markdown file, GitHub gist, or self-contained HTML file |
+| コマンド | 機能 |
+|---------|------|
+| `/clear` | 現在のセッションを破棄（履歴保存なし）して新しい会話を開始 |
+| `/compact` | コンテキスト使用量を減らすために会話を要約 |
+| `/context` | コンテキストウィンドウのトークン使用量と可視化を表示 |
+| `/new` | 現在のセッションを終了（履歴に保存）して新しい会話を開始 |
+| `/resume` | 別のセッションに切り替え（セッションIDを指定可） |
+| `/rename` | 現在のセッションをリネーム（名前省略で自動生成） |
+| `/rewind` | タイムラインピッカーを開いて以前の任意のポイントに巻き戻す |
+| `/usage` | セッション使用状況メトリクスと統計を表示 |
+| `/session` | セッション情報とワークスペースサマリーを表示 |
+| `/share` | セッションをMarkdownファイル、GitHub Gist、スタンドアロンHTMLとしてエクスポート |
 
-### Display
+### 表示
 
-| Command | What It Does |
-|---------|--------------|
-| `/statusline` (or `/footer`) | Customize which items appear in the status bar at the bottom of the session (directory, branch, effort, context window, quota) |
-| `/theme` | View or set terminal theme |
+| コマンド | 機能 |
+|---------|------|
+| `/statusline`（または`/footer`） | ステータスバーに表示する項目をカスタマイズ（ディレクトリ、ブランチ、努力度、コンテキストウィンドウ、クォータ） |
+| `/theme` | ターミナルテーマの表示または設定 |
 
-### Help and Feedback
+### ヘルプとフィードバック
 
-| Command | What It Does |
-|---------|--------------|
-| `/changelog` | Display changelog for CLI versions |
-| `/feedback` | Submit feedback to GitHub |
-| `/help` | Show all available commands |
+| コマンド | 機能 |
+|---------|------|
+| `/changelog` | CLIバージョンの変更履歴を表示 |
+| `/feedback` | GitHubにフィードバックを送信 |
+| `/help` | 利用可能な全コマンドを表示 |
 
-### Quick Shell Commands
+### クイックシェルコマンド
 
-Run shell commands directly without AI by prefixing with `!`:
+`!`をプレフィックスにすることでAIを通さずシェルコマンドを直接実行：
 
 ```bash
 copilot
 
 > !git status
-# Runs git status directly, bypassing the AI
+# AIをバイパスしてgit statusを直接実行
 
 > !python -m pytest tests/
-# Runs pytest directly
+# pytestを直接実行
 ```
 
-### Switching Models
+### モデルの切り替え
 
-Copilot CLI supports multiple AI models from OpenAI, Anthropic, Google, and others. The models available to you depend on your subscription level and region. Use `/model` to see your options and switch between them:
+Copilot CLIはOpenAI、Anthropic、Googleなど複数のAIモデルをサポートしています。利用可能なモデルはサブスクリプションレベルや地域によって異なります。`/model`で選択肢を確認して切り替えられます：
 
 ```bash
 copilot
 > /model
 
-# Shows available models and lets you pick one. Select Sonnet 4.5.
+# 利用可能なモデルを表示して選択できます。Claude Sonnet 4.5を選んでみてください。
 ```
 
-> 💡 **Tip**: Some models cost more "premium requests" than others. Models marked **1x** (like Claude Sonnet 4.5) are a great default. They're capable and efficient. Higher-multiplier models use your premium request quota faster, so save those for when you really need them.
-
-> 💡 **Not sure which model to pick?** Select **`Auto`** from the model picker to let Copilot automatically choose the best available model for each session. This is a great default if you're just getting started and don't want to think about model selection.
+> 💡 **ヒント**: モデルによって消費する「プレミアムリクエスト」の量が異なります。**1x**表示のモデル（Claude Sonnet 4.5など）は優れたデフォルト選択です。高倍率モデルはプレミアムリクエストのクォータを早く消費するため、本当に必要なときのために残しておきましょう。
 
 </details>
 
 ---
 
-# Practice
+# 実践
 
 <img src="../images/practice.png" alt="Warm desk setup with monitor showing code, lamp, coffee cup, and headphones ready for hands-on practice" width="800"/>
 
-Time to put what you've learned into action.
+学んだことを実際に試してみましょう。
 
 ---
 
-## ▶️ Try It Yourself
+## ▶️ 実践してみよう
 
-### Interactive Exploration
+### インタラクティブ探索
 
-Start Copilot and use follow-up prompts to iteratively improve the book app:
+Copilotを起動して、フォローアッププロンプトを使いながら書籍アプリを繰り返し改善してみましょう：
 
 ```bash
 copilot
 
-> Review @samples/book-app-project/book_app.py - what could be improved?
+> @samples/book-app-project/book_app.py を改善できる点は何ですか？
 
-> Refactor the if/elif chain into a more maintainable structure
+> if/elif チェーンをより保守しやすい構造にリファクタリングしてください
 
-> Add type hints to all the handler functions
+> すべてのハンドラー関数に型ヒントを追加してください
 
 > /exit
 ```
 
-### Plan a Feature
+### 機能の計画
 
-Use `/plan` to have Copilot CLI map out an implementation before writing any code:
+`/plan`を使って、コードを書く前にCopilot CLIに実装の全体像を立案させてみましょう：
 
 ```bash
 copilot
 
-> /plan Add a search feature to the book app that can find books by title or author
+> /plan タイトルまたは著者で書籍を検索できる機能を書籍アプリに追加する
 
-# Review the plan
-# Approve or modify
-# Watch it implement step by step
+# 計画を確認する
+# 承認または修正する
+# ステップバイステップで実装を見守る
 ```
 
-### Automate with Programmatic Mode
+### Programmaticモードで自動化
 
-The `-p` flag lets you run Copilot CLI directly from your terminal without entering interactive mode. Copy and paste the following script into your terminal (not inside Copilot) from the repository root to review all Python files in the book app.
+`-p`フラグを使えばインタラクティブモードに入らずにターミナルから直接Copilot CLIを実行できます。リポジトリルートから以下のスクリプトをターミナルに貼り付けて（Copilot内ではなく）書籍アプリの全Pythonファイルをレビューしてみましょう。
 
 ```bash
-# Review all Python files in the book app
+# 書籍アプリの全Pythonファイルをレビュー
 for file in samples/book-app-project/*.py; do
   echo "Reviewing $file..."
-  copilot --allow-all -p "Quick code quality review of @$file - critical issues only"
+  copilot --allow-all -p "@$file のコード品質を簡易レビューしてください。重要な問題のみ"
 done
 ```
 
 **PowerShell (Windows):**
 
 ```powershell
-# Review all Python files in the book app
+# 書籍アプリの全Pythonファイルをレビュー
 Get-ChildItem samples/book-app-project/*.py | ForEach-Object {
   $relativePath = "samples/book-app-project/$($_.Name)";
   Write-Host "Reviewing $relativePath...";
-  copilot --allow-all -p "Quick code quality review of @$relativePath - critical issues only" 
+  copilot --allow-all -p "@$relativePath のコード品質を簡易レビューしてください。重要な問題のみ" 
 }
 ```
 
 ---
 
-After completing the demos, try these variations:
+デモを完了したら、以下のバリエーションも試してみましょう：
 
-1. **Interactive Challenge**: Start `copilot` and explore the book app. Ask about `@samples/book-app-project/books.py` and request improvements 3 times in a row.
+1. **インタラクティブチャレンジ**: `copilot`を起動して書籍アプリを探索。`@samples/book-app-project/books.py`について質問して、改善を3回続けて依頼してみましょう。
 
-2. **Plan Mode Challenge**: Run `/plan Add rating and review features to the book app`. Read the plan carefully. Does it make sense?
+2. **Planモードチャレンジ**: `/plan 書籍アプリに評価・レビュー機能を追加する`を実行。計画をよく読んでください。理にかなっていますか？
 
-3. **Programmatic Challenge**: Run `copilot --allow-all -p "List all functions in @samples/book-app-project/book_app.py and describe what each does"`. Did it work on the first try?
+3. **Programmaticチャレンジ**: `copilot --allow-all -p "@samples/book-app-project/book_app.py のすべての関数を列挙して、それぞれが何をするか説明してください"`を実行。一発で機能しましたか？
 
 ---
 
 ## 💡 Tip: Control Your CLI Session from Web or Mobile
 
-GitHub Copilot CLI supports **remote sessions**, letting you monitor and interact with a running CLI session from a web browser (on desktop or mobile) or the GitHub Mobile app without being physically at your terminal.
+GitHub Copilot CLIは**リモートセッション**をサポートしており、実際にターミナルの前にいなくても、Webブラウザ（デスクトップ・モバイル）またはGitHub Mobileアプリから実行中のCLIセッションを監視・操作できます。
 
-Start a remote session with the `--remote` flag:
+`--remote`フラグでリモートセッションを開始する：
 
 ```bash
 copilot --remote
 ```
 
-Copilot CLI will display a link and provide access to a QR code. Open the link on your phone or in a desktop browser tab to watch the session in real time, send follow-up prompts, review plans, and steer the agent remotely. Sessions are user-specific so you can only access your own Copilot CLI sessions.
+Copilot CLIがリンクとQRコードを表示します。スマートフォンまたはデスクトップのブラウザタブでリンクを開くと、リアルタイムでセッションを確認したり、フォローアッププロンプトを送ったり、計画を確認したり、リモートでエージェントを指示したりできます。セッションはユーザー固有なので、自分のCopilot CLIセッションにのみアクセスできます。
 
-You can also enable remote access from inside an active session at any time:
+アクティブなセッション中にいつでもリモートアクセスを有効にできます：
 
 ```
 > /remote
 ```
 
-Additional details about remote sessions can be found in the [Copilot CLI docs](https://docs.github.com/copilot/how-tos/copilot-cli/steer-remotely).
+リモートセッションの詳細は[Copilot CLIドキュメント](https://docs.github.com/copilot/how-tos/copilot-cli/steer-remotely)を参照してください。
 
 ---
 
-## 📝 Assignment
+## 📝 課題
 
-### Main Challenge: Improve the Book App Utilities
+### メインチャレンジ: 書籍アプリのutilitiesを改善する
 
-The hands-on examples focused on reviewing and refactoring `book_app.py`. Now practice the same skills on a different file, `utils.py`:
+ハンズオンの例では`book_app.py`のレビューとリファクタリングを行いました。今度は`utils.py`で同じスキルを練習しましょう：
 
-1. Start an interactive session: `copilot`
-2. Ask Copilot CLI to summarize the file: `@samples/book-app-project/utils.py What does each function in this file do?`
-3. Ask it to add input validation: "Add validation to `get_user_choice()` so it handles empty input and non-numeric entries"
-4. Ask it to improve error handling: "What happens if `get_book_details()` receives an empty string for the title? Add guards for that."
-5. Ask for a docstring: "Add a comprehensive docstring to `get_book_details()` with parameter descriptions and return values"
-6. Observe how context carries between prompts. Each improvement builds on the last
-7. Exit with `/exit`
+1. インタラクティブセッションを開始: `copilot`
+2. ファイルの概要を訊く: `@samples/book-app-project/utils.py このファイルの各関数は何をしていますか？`
+3. 入力バリデーションを追加する: 「`get_user_choice()`に空入力と数字以外の入力を処理するバリデーションを追加して」
+4. エラーハンドリングを改善する: 「`get_book_details()`にタイトルとして空文字列が渡されたらどうなるか？そのガードを追加して」
+5. docstringを追加する: 「`get_book_details()`にパラメータの説明と戻り値を含む包括的なdocstringを追加して」
+6. プロンプト間でコンテキストが引き継がれることを確認する
+7. `/exit`で終了する
 
-**Success criteria**: You should have an improved `utils.py` with input validation, error handling, and a docstring, all built through a multi-turn conversation.
+**成功基準**: 入力バリデーション、エラーハンドリング、docstringが追加された改善済み`utils.py`が、マルチターンの会話を通じて完成すること。
 
 <details>
-<summary>💡 Hints (click to expand)</summary>
+<summary>💡 ヒント（クリックで展開）</summary>
 
-**Sample prompts to try:**
+**試してみるプロンプト例:**
 ```bash
-> @samples/book-app-project/utils.py What does each function in this file do?
-> Add validation to get_user_choice() so it handles empty input and non-numeric entries
-> What happens if get_book_details() receives an empty string for the title? Add guards for that.
-> Add a comprehensive docstring to get_book_details() with parameter descriptions and return values
+> @samples/book-app-project/utils.py このファイルの各関数は何をしていますか？
+> get_user_choice() に空入力と数字以外の入力を処理するバリデーションを追加してください
+> get_book_details() にタイトルとして空文字列が渡されたらどうなりますか？そのガードを追加してください
+> get_book_details() にパラメータの説明と戻り値を含む包括的なdocstringを追加してください
 ```
 
-**Common issues:**
-- If Copilot CLI asks clarifying questions, just answer them naturally
-- The context carries forward, so each prompt builds on the previous
-- Use `/clear` if you want to start over
+**よくある問題:**
+- Copilot CLIが確認質問をしてきたら、自然に答えましょう
+- コンテキストは引き継がれるので、各プロンプトは前の内容を基に展開する
+- 最初からやり直したい場合は`/clear`を使用
 
 </details>
 
-### Bonus Challenge: Compare the Modes
+### ボーナスチャレンジ: モードを比較する
 
-The examples used `/plan` for a search feature and `-p` for batch reviews. Now try all three modes on a single new task: adding a `list_by_year()` method to the `BookCollection` class:
+例では検索機能に`/plan`を、バッチレビューに`-p`を使いました。今度は1つの新しいタスク「`BookCollection`クラスへの`list_by_year()`メソッド追加」を3つのモードすべてで試してみましょう：
 
-1. **Interactive**: `copilot` → ask it to design and build the method step by step
-2. **Plan**: `/plan Add a list_by_year(start, end) method to BookCollection that filters books by publication year range`
-3. **Programmatic**: `copilot --allow-all -p "@samples/book-app-project/books.py Add a list_by_year(start, end) method that returns books published between start and end year inclusive"`
+1. **Interactive**: `copilot` → ステップバイステップで設計・構築を依頼
+2. **Plan**: `/plan 出版年の範囲でフィルタリングできる list_by_year(start, end) メソッドを BookCollection に追加する`
+3. **Programmatic**: `copilot --allow-all -p "@samples/book-app-project/books.py に、start から end 年（両端を含む）に出版された書籍を返す list_by_year(start, end) メソッドを追加してください"`
 
-**Reflection**: Which mode felt most natural? When would you use each?
+**振り返り**: どのモードが最も自然に感じましたか？それぞれをいつ使いますか？
 
 ---
 
 <details>
-<summary>🔧 <strong>Common Mistakes & Troubleshooting</strong> (click to expand)</summary>
+<summary>🔧 <strong>よくあるミスとトラブルシューティング</strong>（クリックで展開）</summary>
 
-### Common Mistakes
+### よくあるミス
 
-| Mistake | What Happens | Fix |
+| ミス | 起こること | 修正方法 |
 |---------|--------------|-----|
-| Typing `exit` instead of `/exit` | Copilot CLI treats "exit" as a prompt, not a command | Slash commands always start with `/` |
-| Using `-p` for multi-turn conversations | Each `-p` call is isolated with no memory of previous calls | Use interactive mode (`copilot`) for conversations that build on context |
-| Forgetting quotes around prompts with `$` or `!` | Shell interprets special characters before Copilot CLI sees them | Wrap prompts in quotes: `copilot -p "What does $HOME mean?"` |
+| `/exit`の代わりに`exit`と入力 | Copilot CLIが「exit」をコマンドではなくプロンプトとして扱う | スラッシュコマンドは常に`/`から始まる |
+| マルチターン会話に`-p`を使う | 各`-p`呼び出しは独立していて前の呼び出しを記憶しない | コンテキストを引き継ぐ会話にはInteractiveモード（`copilot`）を使う |
+| `$`や`!`を含むプロンプトをクォートで囲まない | Copilot CLIに届く前にシェルが特殊文字を解釈する | プロンプトをクォートで囲む: `copilot -p "What does $HOME mean?"` |
 
-### Troubleshooting
+### トラブルシューティング
 
-**"Model not available"** - Your subscription may not include all models. Use `/model` to see what's available.
+**「Model not available」** - サブスクリプションに全モデルが含まれていない可能性があります。`/model`で利用可能なモデルを確認してください。
 
-**"Context too long"** - Your conversation has used the full context window. Use `/clear` to reset, or start a new session.
+**「Context too long」** - 会話がコンテキストウィンドウの上限に達しました。`/clear`でリセットするか、新しいセッションを開始してください。
 
-**"Rate limit exceeded"** - Wait a few minutes and try again. Consider using programmatic mode for batch operations with delays.
+**「Rate limit exceeded」** - 数分待ってから再試行してください。バッチ処理にはProgrammaticモードを遅延を入れながら使うことを検討してください。
 
 </details>
 
 ---
 
-# Summary
+# まとめ
 
-## 🔑 Key Takeaways
+## 🔑 重要なポイント
 
-1. **Interactive mode** is for exploration and iteration - context carries forward. It's like having a conversation with someone who remembers what you've said up to that point.
-2. **Plan mode** is normally for more involved tasks. Review before implementation.
-3. **Programmatic mode** is for automation. No interaction needed.
-4. **Essential commands** (`/ask`, `/help`, `/clear`, `/plan`, `/research`, `/model`, `/exit`) cover most daily use.
+1. **Interactiveモード**は探索と反復向け — コンテキストが引き継がれます。これまでの会話を覚えている相手と話すような感覚です。
+2. **Planモード**は本格的なタスク向け。実装前に計画を確認できます。
+3. **Programmaticモード**は自動化向け。インタラクションは不要です。
+4. **必須コマンド**（`/ask`、`/help`、`/clear`、`/plan`、`/research`、`/model`、`/exit`）で日常利用の大半をカバーできます。
 
-> 📋 **Quick Reference**: See the [GitHub Copilot CLI command reference](https://docs.github.com/en/copilot/reference/cli-command-reference) for a complete list of commands and shortcuts.
-
----
-
-## ➡️ What's Next
-
-Now that you understand the three modes, let's learn how to give Copilot CLI context about your code.
-
-In **[Chapter 02: Context and Conversations](../02-context-conversations/README.md)**, you'll learn:
-
-- The `@` syntax for referencing files and directories
-- Session management with `--resume` and `--continue`
-- How context management makes Copilot CLI truly powerful
+> 📋 **クイックリファレンス**: コマンドとショートカットの完全な一覧は[GitHub Copilot CLIコマンドリファレンス](https://docs.github.com/en/copilot/reference/cli-command-reference)を参照してください。
 
 ---
 
-**[← Back to Course Home](../README.md)** | **[Continue to Chapter 02 →](../02-context-conversations/README.md)**
+## ➡️ 次のステップ
+
+3つのモードを理解したところで、Copilot CLIにコードのコンテキストを与える方法を学びましょう。
+
+**[Chapter 02: コンテキストと会話](../02-context-conversations/README.md)**では以下を学びます：
+
+- ファイルやディレクトリを参照する`@`構文
+- `--resume`と`--continue`によるセッション管理
+- コンテキスト管理がCopilot CLIを真に強力にする理由
+
+---
+
+**[← コースホームに戻る](../README.md)** | **[Chapter 02へ進む →](../02-context-conversations/README.md)**

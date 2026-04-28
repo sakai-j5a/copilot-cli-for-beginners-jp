@@ -1,12 +1,12 @@
-# Appendices
+# 付録
 
-These appendices cover additional topics that extend the core course content. They're optional reading for when you need these specific capabilities.
+付録には、コースの核心コンテンツを拡張する追加トピックが含まれています。特定の機能が必要になったときのオプション資料です。
 
-| Appendix | Description | Prerequisite |
+| 付録 | 説明 | 前提章 |
 |----------|-------------|--------------|
-| [Additional Context Features](additional-context.md) | Working with images and multi-directory permissions | Chapter 02 |
-| [CI/CD Integration](ci-cd-integration.md) | GitHub Actions workflows for automated reviews | Chapter 07 |
+| [追加のコンテキスト機能](additional-context.md) | 画像やマルチディレクトリ権限の操作 | 第02章 |
+| [CI/CD統合](ci-cd-integration.md) | 自動レビュー用のGitHub Actionsワークフロー | 第07章 |
 
 ---
 
-**[← Return to Course Home](../README.md)**
+**[← コースホームへ戻る](../README.md)**

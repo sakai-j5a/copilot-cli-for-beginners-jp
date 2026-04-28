@@ -1,26 +1,26 @@
 ![Chapter 05: Skills System](images/chapter-header.png)
 
-> **What if Copilot could automatically apply your team's best practices without you having to explain them every time?**
+> **Copilotが、毎回説明しなくても、チームのベストプラクティスを自動的に適用できたらどうでしょう？**
 
-In this chapter, you'll learn about Agent Skills: folders of instructions that Copilot automatically loads when relevant to your task. While agents change *how* Copilot thinks, skills teach Copilot *specific ways to complete tasks*. You'll create a security audit skill that Copilot applies whenever you ask about security, build team-standard review criteria that ensure consistent code quality, and learn how skills work across Copilot CLI, VS Code, and the GitHub Copilot cloud agent.
+この章では、Agent Skillsについて学びます。Skillsは、タスクに関連するときにCopilotが自動的に読み込む指示を含むフォルダです。エージェントがCopilotの*考え方*を変えるのに対し、SkillsはCopilotに*特定のタスクの完了方法*を教えます。セキュリティに関する質問をすると自動適用されるセキュリティ監査Skillを作成し、一貫したコード品質を保つチームプラクティスを構築し、SkillsがCopilot CLI、VS Code、GitHub Copilotクラウドエージェントでどのように機能するかを学びます。
 
 
-## 🎯 Learning Objectives
+## 🎯 学習目標
 
-By the end of this chapter, you'll be able to:
+この章を終えると、以下のことができるようになります：
 
-- Understand how Agent Skills work and when to use them
-- Create custom skills with SKILL.md files
-- Use community skills from shared repositories
-- Know when to use skills vs agents vs MCP
+- Agent Skillsの仕組みと使い忝を理解する
+- SKILL.mdファイルでカスタムSkillsを作成する
+- 共有リポジトリのコミュニティSkillsを利用する
+- Skills、Agents、MCPの使い分けを知る
 
-> ⏱️ **Estimated Time**: ~55 minutes (20 min reading + 35 min hands-on)
+> ⏱️ **所要時間の目安**: 約55分（20分読む + 35分ハンズオン）
 
 ---
 
-## 🧩 Real-World Analogy: Power Tools
+## 🧩 現実世界のアナロジー: 電動工具
 
-A general-purpose drill is useful, but specialized attachments make it powerful. 
+汎用ドリルは便利ですが、専用アタッチメントがあると更に強力になります。
 <img src="images/power-tools-analogy.png" alt="Power Tools - Skills Extend Copilot's Capabilities" width="800"/>
 
 
@@ -39,150 +39,150 @@ Skills work the same way. Just like swapping drill bits for different jobs, you 
 
 ---
 
-# How Skills Work
+# Skillsの仕組み
 
-<img src="images/how-skills-work.png" alt="Glowing RPG-style skill icons connected by light trails on a starfield background representing Copilot skills" width="800"/>
+<img src="images/how-skills-work.png" alt="星空を背景にCopilot Skillsを表すRPGスタイルの光るスキルアイコンが光の軌跡で繋がった画像" width="800"/>
 
-Learn what skills are, why they matter, and how they differ from agents and MCP.
+Skillsとは何か、なぜ重要か、AgentsやMCPとの違いを学びます。
 
 ---
 
-## *New to Skills?* Start Here!
+## *Skillsが初めての方へ:* まずここから！
 
-1. **See what skills are already available:**
+1. **利用可能なSkillsを確認する:**
    ```bash
    copilot
    > /skills list
    ```
-   This shows all skills Copilot can find, including any **built-in skills** that ship with the CLI itself, plus skills from your project and personal folders.
+   CLI内組の**ビルトインSkills**、プロジェクトフォルダおよび個人フォルダのSkillsを含む全てのSkillsを表示します。
 
-   > 💡 **Built-in skills**: The Copilot CLI comes with skills pre-installed out of the box. For example, the `customizing-copilot-cloud-agents-environment` skill provides a guide for customizing the Copilot cloud agent's environment. You don't need to create or install anything to use these. Run `/skills list` to see what's available.
+   > 💡 **ビルトインSkills**: Copilot CLIには最初からSkillsがインストールされています。例えば`customizing-copilot-cloud-agents-environment`スキルはCopilotクラウドAgent環境のカスタマイズのガイドを提供します。作成またはインストール不要で使用できます。`/skills list`で利用可能なものを確認してください。
 
-2. **Look at a real skill file:** Check out our provided [code-checklist SKILL.md](../.github/skills/code-checklist/SKILL.md) to see the pattern. It's just YAML frontmatter plus markdown instructions.
+2. **実際のSkillファイルを確認する:** 提供されている[code-checklist SKILL.md](../.github/skills/code-checklist/SKILL.md)でパターンを確認してください。YAMLフロントマターとmarkdownの指示だけで構成されています。
 
-3. **Understand the core concept:** Skills are task-specific instructions that Copilot loads *automatically* when your prompt matches the skill's description. You don't need to activate them, just ask naturally.
+3. **基本概念を理解する:** SkillsはプロンプトがSkillの説明に一致するとCopilotが*自動的に*読み込むタスク固有の指示です。起動不要、自然に質問するだけでいい。
 
 
-## Understanding Skills
+## Skillsの理解
 
-Agent Skills are folders containing instructions, scripts, and resources that Copilot **automatically loads when relevant** to your task. Copilot reads your prompt, checks if any skills match, and applies the relevant instructions automatically.
+Agent Skillsは、タスクに関連するときCopilotが**自動的に読み込む**指示、スクリプト、リソースを含むフォルダです。Copilotはプロンプトを読み込んで一致するSkillがあるか確認し、関連する指示を自動適用します。
 
 ```bash
 copilot
 
-> Check books.py against our quality checklist
-# Copilot detects this matches your "code-checklist" skill
-# and automatically applies its Python quality checklist
+> books.pyを品質チェックリストで確認して
+# Copilotが"code-checklist"スキルに一致することを検知
+# Python品質チェックリストを自動適用
 
-> Generate tests for the BookCollection class
-# Copilot loads your "pytest-gen" skill
-# and applies your preferred test structure
+> BookCollectionクラスのテストを生成して
+# Copilotが"pytest-gen"スキルを読み込む
+# 期待されるテスト構造を適用
 
-> What are the code quality issues in this file?
-# Copilot loads your "code-checklist" skill
-# and checks against your team's standards
+> このファイルのコード品質の問題は何ですか？
+# Copilotが"code-checklist"スキルを読み込む
+# チームの標準に対してチェック
 ```
 
-> 💡 **Key Insight**: Skills are **automatically triggered** based on your prompt matching the skill's description. Just ask naturally and Copilot applies relevant skills behind the scenes. You can also invoke skills directly as well which you'll learn about next.
+> 💡 **重要なポイント**: Skillsはプロンプトがそのdescriptionに一致したとき**自動的にトリガー**されます。自然に質問するだけで、Copilotが関連するSkillsを裏で適用します。次に学ぶ直接呼び出しも可能です。
 
-> 🧰 **Ready-to-use templates**: Check out the [.github/skills](../.github/skills/) folder for simple copy-paste skills you can try out.
+> 🧰 **すぐ使えるテンプレート**: [.github/skills](../.github/skills/)フォルダにコピーするだけで使えるシンプルなSkillsのサンプルがあります。
 
-### Direct Slash Command Invocation
+### スラッシュコマンドによる直接呼び出し
 
-While auto-triggering is the primary way skills work, you can also **invoke skills directly** using their name as a slash command:
+自動トリガーがSkillsの主な動作方法ですが、Skill名をスラッシュコマンドとして使い**直接呼び出す**こともできます：
 
 ```bash
-> /generate-tests Create tests for the user authentication module
+> /generate-tests ユーザー認証モジュールのテストを作成して
 
-> /code-checklist Check books.py for code quality issues
+> /code-checklist books.pyのコード品質を確認して
 
-> /security-audit Check the API endpoints for vulnerabilities
+> /security-audit APIエンドポイントの脆弱性を確認して
 ```
 
-This gives you explicit control when you want to ensure a specific skill is used.
+特定のSkillを確実に使いたいときに明示的な制御が可能です。
 
-> 📝 **Skills vs Agents Invocation**: Don't confuse skill invocation with agent invocation:
-> - **Skills**: `/skill-name <prompt>`, e.g., `/code-checklist Check this file`
-> - **Agents**: `/agent` (select from list) or `copilot --agent <name>` (command line)
+> 📝 **SkillsとAgentsの呼び出し方の違い**: Skillの呼び出しとAgentの呼び出しを混同しないように注意:
+> - **Skills**: `/skill-name <プロンプト>`、例: `/code-checklist このファイルをチェックして`
+> - **Agents**: `/agent`（リストから選択）または `copilot --agent <name>`（コマンドライン）
 >
-> If you have both a skill and an agent with the same name (e.g., "code-reviewer"), typing `/code-reviewer` invokes the **skill**, not the agent.
+> 同じ名前のSkillとAgentが両方ある場合（例: "code-reviewer"）、`/code-reviewer`と入力すると**Skill**が呼び出されます（Agentではありません）。
 
-### How Do I Know a Skill Was Used?
+### Skillが使われたかどうかの確認方法
 
-You can ask Copilot directly:
+Copilotに直接尋ねることができます：
 
 ```bash
-> What skills did you use for that response?
+> その回答でどのSkillsを使いましたか？
 
-> What skills do you have available for security reviews?
+> セキュリティレビュー用にどんなSkillsが使えますか？
 ```
 
 ### Skills vs Agents vs MCP
 
-Skills are just one piece of GitHub Copilot's extensibility model. Here's how they compare to agents and MCP servers.
+SkillsはGitHub Copilotの拡張性モデルの一部に過ぎません。AgentsやMCPサーバーとの違いは以下の通りです。
 
-> *Don't worry about MCP quite yet. We'll cover it in [Chapter 06](../06-mcp-servers/). It's included here so you can see how skills fit into the overall picture.*
+> *MCPについてはまだ心配しなくて大丈夫です。[Chapter 06](../06-mcp-servers/)で学びます。Skillsが全体像の中でどこに位置するかを示すために乗せています。*
 
 <img src="images/skills-agents-mcp-comparison.png" alt="Comparison diagram showing the differences between Agents, Skills, and MCP Servers and how they combine into your workflow" width="800"/>
 
-| Feature | What It Does | When to Use |
-|---------|--------------|-------------|
-| **Agents** | Changes how AI thinks | Need specialized expertise across many tasks |
-| **Skills** | Provides task-specific instructions | Specific, repeatable tasks with detailed steps |
-| **MCP** | Connects external services | Need live data from APIs |
+| 機能 | 内容 | 使い忝 |
+|---------|-----------|----------|
+| **Agents** | AIの考え方を変える | 多標にわたる専門知識が必要なとき |
+| **Skills** | タスク特化型の指示を提供する | 詳細な手順が必要な特定のタスクの繰り返し |
+| **MCP** | 外部サービスに接続する | APIからリアルタイムデータが必要なとき |
 
-Use agents for broad expertise, skills for specific task instructions, and MCP for external data. An agent can use one or more skills during a conversation. For example, when you ask an agent to check your code, it might apply both a `security-audit` skill and a `code-checklist` skill automatically.
+Agentsは幅広い専門知識に、Skillsは特定タスクの指示に、MCPは外部データに向いています。会話中にAgentが1つ以上のSkillsを使うこともあります。例えば、Agentにコード確認を依頼すると、`security-audit`スキルと`code-checklist`スキルの両方を自動適用することがあります。
 
-> 📚 **Learn More**: See the official [About Agent Skills](https://docs.github.com/copilot/concepts/agents/about-agent-skills) documentation for the complete reference on skill formats and best practices.
+> 📚 **詳細ドキュメント**: [About Agent Skills](https://docs.github.com/copilot/concepts/agents/about-agent-skills)公式ドキュメントでSkillの形式やベストプラクティスの全容を確認できます。
 
 ---
 
-## From Manual Prompts to Automatic Expertise
+## 手動プロンプトから自動専門知識へ
 
-Before diving into how to create skills, let's see *why* they're worth learning. Once you see the consistency gains, the "how" will make more sense.
+Skillsの作り方に入る前に、なぜ学ぶ価値があるのかを*小さな体験*が物語ってくれます。一貫性の向上を確認すると、「どうやるのか」の理解が深まります。
 
-### Before Skills: Inconsistent Reviews
+### Skillsのない場合: 不専門なレビュー
 
-Every code review, you might forget something:
-
-```bash
-copilot
-
-> Review this code for issues
-# Generic review - might miss your team's specific concerns
-```
-
-Or you write a long prompt every time:
-
-```bash
-> Review this code checking for bare except clauses, missing type hints,
-> mutable default arguments, missing context managers for file I/O,
-> functions over 50 lines, print statements in production code...
-```
-
-Time: **30+ seconds** to type. Consistency: **varies by memory**.
-
-### After Skills: Automatic Best Practices
-
-With a `code-checklist` skill installed, just ask naturally:
+コードレビューのたびに、何かを忘れてしまうことがあります：
 
 ```bash
 copilot
 
-> Check the book collection code for quality issues
+> このコードの問題をレビューして
+# 汎用的なレビュー — チーム固有の視点が抑される可能性あり
 ```
 
-**What happens behind the scenes**:
-1. Copilot sees "code quality" and "issues" in your prompt
-2. Checks skill descriptions, finds your `code-checklist` skill matches
-3. Automatically loads your team's quality checklist
-4. Applies all checks without you listing them
+または、毎回長いプロンプトを入力する必要があります：
+
+```bash
+> 裸のexcept節、型ヒントの欠如、ミュータブルなデフォルト引数、
+> ファイルI/Oのコンテキストマネージャの欠如、
+> 50行を超える関数、本番コード内のprint文をチェックして...
+```
+
+入力時間: **30秒以上**。一貫性: **記憑を〜に依存**。
+
+### Skillsありの場合: 自動的なベストプラクティス
+
+`code-checklist` Skillがインストールされれば、自然に質問するだけです：
+
+```bash
+copilot
+
+> 書籍コレクションコードの品質問題をチェックして
+```
+
+**裏側で起きていること**:
+1. Copilotがプロンプト内の「コード品質」と「問題」を検知
+2. Skillのdescriptionを確認し、`code-checklist` Skillが一致することを検出
+3. チームの品質チェックリストを自動読み込み
+4. リスト不要で全チェックを実行
 
 <img src="images/skill-auto-discovery-flow.png" alt="How Skills Auto-Trigger - 4-step flow showing how Copilot automatically matches your prompt to the right skill" width="800"/>
 
-*Just ask naturally. Copilot matches your prompt to the right skill and applies it automatically.*
+*自然に質問するだけ。Copilotが適切なSkillにマッチさせ、自動的に適用します。*
 
-**Output**:
+**出力例**:
 ```
 ## Code Checklist: books.py
 
@@ -206,99 +206,99 @@ copilot
 3 items need attention before merge
 ```
 
-**The difference**: Your team's standards are applied automatically, every time, without typing them out.
+**違い**: チームの基準が毎回自動的に適用され、入力不要で一貫性が保たれます。
 
 ---
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎬 動作を確認！</summary>
 
 ![Skill Trigger Demo](images/skill-trigger-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*デモの出力は異なります。実際のモデル、ツール、回答はここで示したものと異なる場合があります。*
 
 </details>
 
 ---
 
-## Consistency at Scale: Team PR Review Skill
+## 大規模での一貫性: チームPRレビューSkill
 
-Imagine your team has a 10-point PR checklist. Without a skill, every developer must remember all 10 points, and someone always forgets one of them. With a `pr-review` skill, the entire team gets consistent reviews:
+チームに10点のPRチェックリストがあるとします。Skillがなければ、全工エンジニアが10点すべてを覚えていなければならず、必ず誰かが一つ忘れます。`pr-review` Skillがあれば、チーム全全一貫したレビューが可能になります：
 
 ```bash
 copilot
 
-> Can you review this PR?
+> このPRをレビューしてもらえますか？
 ```
 
-Copilot automatically loads your team's `pr-review` skill and checks all 10 points:
+Copilotはチームの`pr-review`スキルを自動読み込み、4項目すべてを確認します:
 
 ```
 PR Review: feature/user-auth
 
-## Security ✅
-- No hardcoded secrets
-- Input validation present
-- No bare except clauses
+## セキュリティ ✅
+- ハードコードされた秘密情報なし
+- 入力バリデーションあり
+- 裸のexcept条なし
 
-## Code Quality ⚠️
-- [WARN] print statement on line 45 - remove before merge
-- [WARN] TODO on line 78 missing issue reference
-- [WARN] Missing type hints on public functions
+## コード品質 ⚠️
+- [警告] 45行のprint文 — マージ前に削除
+- [警告] 78行のTODOにイシュー参照なし
+- [警告] 公開関数に型ヒントなし
 
-## Testing ✅
-- New tests added
-- Edge cases covered
+## テスト ✅
+- 新規テスト追加済み
+- エッジケースをカバー
 
-## Documentation ❌
-- [FAIL] Breaking change not documented in CHANGELOG
-- [FAIL] API changes need OpenAPI spec update
+## ドキュメント ❌
+- [失敗] 破壊的変更がCHANGELOGに記載なし
+- [失敗] API変更にOpenAPIスペックの更新が必要
 ```
 
-**The power**: Every team member applies the same standards automatically. New hires don't need to memorize the checklist because the skill handles it.
+**力リ**: 全エンジニアが同じ基準を自動適用できます。新入社員はチェックリストを記憶する必要がなく、Skillが全て処理してくれます。
 
 ---
 
-# Creating Custom Skills
+# カスタムSkillsの作成
 
 <img src="images/creating-managing-skills.png" alt="Human and robotic hands building a wall of glowing LEGO-like blocks representing skill creation and management" width="800"/>
 
-Build your own skills from SKILL.md files.
+SKILL.mdファイルから独自のSkillsを作成しましょう。
 
 ---
 
-## Skill Locations
+## Skillsの保存場所
 
-Skills are stored in `.github/skills/` (project-specific) or `~/.copilot/skills/` (user level).
+Skillsは`.github/skills/`（プロジェクト固有）または`~/.copilot/skills/`（ユーザーレベル）に保存されます。
 
-### How Copilot Finds Skills
+### CopilotがSkillsを探す場所
 
-Copilot automatically scans these locations for skills:
+Copilotは以下の場所を自動スキャンします：
 
-| Location | Scope |
-|----------|-------|
-| `.github/skills/` | Project-specific (shared with team via git) |
-| `~/.copilot/skills/` | User-specific (your personal skills) |
+| 場所 | スコープ |
+|------|-------|
+| `.github/skills/` | プロジェクト固有（gitでチーム共有） |
+| `~/.copilot/skills/` | ユーザー固有（個人用Skills） |
 
-### Skill Structure
+### Skillsの構成
 
-Each skill lives in its own folder with a `SKILL.md` file. You can optionally include scripts, examples, or other resources:
+各Skillは自身のフォルダ内に`SKILL.md`ファイルを持ちます。必要に応じてスクリプト、例示、その他のリソースを含めることもできます：
 
 ```
 .github/skills/
 └── my-skill/
-    ├── SKILL.md           # Required: Skill definition and instructions
+    ├── SKILL.md           # 必須: Skill定義と指示
     ├── examples/          # Optional: Example files Copilot can reference
     │   └── sample.py
     └── scripts/           # Optional: Scripts the skill can use
         └── validate.sh
 ```
 
-> 💡 **Tip**: The directory name should match the `name` in your SKILL.md frontmatter (lowercase with hyphens).
+> 💡 **ティップ**: ディレクトリ名はSKILL.mdのfrontmatter内の`name`（小文字・ハイフン区切り）と一致させてください。
 
-### SKILL.md Format
+### SKILL.mdのフォーマット
 
-Skills use a simple markdown format with YAML frontmatter:
+SkillはシンプルなYAML frontmatter付きMarkdown形式を使用します:
 
 ```markdown
 ---
@@ -337,19 +337,19 @@ Provide issues as a numbered list with severity:
 - [LOW] - Nice to have
 ```
 
-**YAML Properties:**
+**YAMLプロパティ:**
 
-| Property | Required | Description |
-|----------|----------|-------------|
-| `name` | **Yes** | Unique identifier (lowercase, hyphens for spaces) |
-| `description` | **Yes** | What the skill does and when Copilot should use it |
-| `license` | No | License that applies to this skill |
+| プロパティ | 必須 | 説明 |
+|---------|------|---------|
+| `name` | **必須** | 一意の識別子（小文字、スペースはハイフン） |
+| `description` | **必須** | Skillの内容とCopilotが使うタイミング |
+| `license` | 任意 | このSkillに適用されるライセンス |
 
-> 📖 **Official docs**: [About Agent Skills](https://docs.github.com/copilot/concepts/agents/about-agent-skills)
+> 📖 **公式ドキュメント**: [About Agent Skills](https://docs.github.com/copilot/concepts/agents/about-agent-skills)
 
-### Creating Your First Skill
+### 最初のSkillを作成する
 
-Let's build a security audit skill that checks for OWASP Top 10 vulnerabilities:
+OWASP Top 10の脆弱性を確認するセキュリティ監査Skillを作成しましょう：
 
 ```bash
 # Create skill directory
@@ -397,15 +397,15 @@ For each issue found, provide:
 4. Recommended fix
 EOF
 
-# Test your skill (skills load automatically based on your prompt)
+# Skillのテスト（プロンプトに応じて自動ロード）
 copilot
 
 > @samples/book-app-project/ Check this code for security vulnerabilities
-# Copilot detects "security vulnerabilities" matches your skill
-# and automatically applies its OWASP checklist
+# Copilotが「Security vulnerabilities」に一致することを検出し
+# 自動的にOWASPチェックリストを適用
 ```
 
-**Expected output** (your results will vary):
+**期待される出力**（結果は異なる場合があります）:
 
 ```
 Security Audit: book-app-project
@@ -424,178 +424,178 @@ Security Audit: book-app-project
 
 ---
 
-## Writing Good Skill Descriptions
+## 良いSkill descriptionの書き方
 
-The `description` field in your SKILL.md is crucial! It's how Copilot decides whether to load your skill:
+SKILL.mdの`description`フィールドは非常に重要です！CopilotがSkillを読み込むかどうかをここで判断します：
 
 ```markdown
 ---
 name: security-audit
-description: Use for security reviews, vulnerability scanning,
-  checking for SQL injection, XSS, authentication issues,
-  OWASP Top 10 vulnerabilities, and security best practices
+description: セキュリティレビュー、脆弱性スキャン、
+  SQLインジェクション、XSS、認証問題の確認、
+  OWASP Top 10の脆弱性、セキュリティのベストプラクティスに使用する
 ---
 ```
 
-> 💡 **Tip**: Include keywords that match how you naturally ask questions. If you say "security review," include "security review" in the description.
+> 💡 **ヒント**: 自分が自然に尋ねるときのキーワードを含めてください。「セキュリティレビュー」と言う場合は、descriptionに「セキュリティレビュー」を含めてください。
 
-### Combining Skills with Agents
+### SkillsとAgentsの組み合わせ
 
-Skills and agents work together. The agent provides expertise, the skill provides specific instructions:
+Skillsとagentsは連携して機能します。agentが専門知識を提供し、skillが具体的な指示を提供します:
 
 ```bash
-# Start with a code-reviewer agent
+# code-reviewer agentを開始
 copilot --agent code-reviewer
 
-> Check the book app for quality issues
-# code-reviewer agent's expertise combines
-# with your code-checklist skill's checklist
+> 書籍アプリの品質問題を確認して
+# code-reviewer agentの専門知識と
+# code-checklist skillのチェックリストを組み合わせる
 ```
 
 ---
 
-# Managing and Sharing Skills
+# Skillsの管理と共有
 
-Discover installed skills, find community skills, and share your own.
+インストール済みSkillの確認、コミュニティSkillの発見、自分のSkillの共有方法。
 
 <img src="images/managing-sharing-skills.png" alt="Managing and Sharing Skills - showing the discover, use, create, and share cycle for CLI skills" width="800" />
 
 ---
 
-## Managing Skills with the `/skills` Command
+## `/skills`コマンドでSkillsを管理する
 
-Use the `/skills` command to manage your installed skills:
+`/skills`コマンドでインストール済みSkillを管理します:
 
-| Command | What It Does |
-|---------|--------------|
-| `/skills list` | Show all installed skills |
-| `/skills info <name>` | Get details about a specific skill |
-| `/skills add <name>` | Enable a skill (from a repository or marketplace) |
-| `/skills remove <name>` | Disable or uninstall a skill |
-| `/skills reload` | Reload skills after editing SKILL.md files |
+| コマンド | 内容 |
+|---------|-------------- |
+| `/skills list` | インストール済みSkillを一覧表示 |
+| `/skills info <name>` | 特定のSkillの詳細を表示 |
+| `/skills add <name>` | Skillを有効化（リポジトリまたはマーケットプレイスから） |
+| `/skills remove <name>` | Skillを無効化またはアンインストール |
+| `/skills reload` | SKILL.md編集後Skillを再読み込み |
 
-> 💡 **Remember**: You don't need to "activate" skills for each prompt. Once installed, skills are **automatically triggered** when your prompt matches their description. These commands are for managing which skills are available, not for using them.
+> 💡 **覚えておいて**: 各プロンプトでSkillを「有効化」する必要はありません。インストール後は、プロンプトがdescriptionに一致すると**自動的にトリガー**されます。これらのコマンドはSkillの利用ではなく、利用可能なSkillの管理のためのものです。
 
-### Example: View Your Skills
+### 例: Skillの一覧表示
 
 ```bash
 copilot
 
 > /skills list
 
-Available skills:
-- security-audit: Security-focused code review checking OWASP Top 10
-- generate-tests: Generate comprehensive unit tests with edge cases
-- code-checklist: Team code quality checklist
+利用可能な Skill:
+- security-audit: OWASP Top 10を確認するセキュリティ重点のコードレビュー
+- generate-tests: エッジケースを含む包括的なユニットテストを生成
+- code-checklist: チームのコード品質チェックリスト
 ...
 
 > /skills info security-audit
 
 Skill: security-audit
-Source: Project
-Location: .github/skills/security-audit/SKILL.md
-Description: Security-focused code review checking OWASP Top 10 vulnerabilities
+ソース: プロジェクト
+場所: .github/skills/security-audit/SKILL.md
+説明: OWASP Top 10脆弱性を確認するセキュリティ重点のコードレビュー
 ```
 
 ---
 
 <details>
-<summary>See it in action!</summary>
+<summary>動作を確認！</summary>
 
 ![List Skills Demo](images/list-skills-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*デモの出力は異なります。実際のモデル、ツール、回答はここで示したものと異なる場合があります。*
 
 </details>
 
 ---
 
-### When to Use `/skills reload`
+### `/skills reload`を使うタイミング
 
-After creating or editing a skill's SKILL.md file, run `/skills reload` to pick up the changes without restarting Copilot:
+SkillのSKILL.mdを作成または編集した後、Copilotを再起動しなくても`/skills reload`で変更を反映できます：
 
 ```bash
-# Edit your skill file
-# Then in Copilot:
+# Skillファイルを編集する
+# その後Copilot内で:
 > /skills reload
 Skills reloaded successfully.
 ```
 
-> 💡 **Good to know**: Skills remain effective even after using `/compact` to summarize your conversation history. No need to reload after compacting.
+> 💡 **筮にりたいこと**: `/compact`で会話履歴を要約した後もSkillsは有効のままです。要約後にリロードする必要はありません。
 
 ---
 
-## Finding and Using Community Skills
+## コミュニティSkillsの検索と利用
 
-### Using Plugins to Install Skills
+### Pluginsを使ってSkillsをインストールする
 
-> 💡 **What are plugins?** Plugins are installable packages that can bundle skills, agents, and MCP server configurations together. Think of them as "app store" extensions for Copilot CLI.
+> 💡 **Pluginsとは？** PluginsはSkills、Agents、MCPサーバー設定をまとめてバンドルできるインストール可能なパッケージです。Copilot CLI用の「アプリストア」拡張機能といえます。
 
-The `/plugin` command lets you browse and install these packages:
+`/plugin`コマンドでこれらのパッケージを閲覧またはインストールできます：
 
 ```bash
 copilot
 
 > /plugin list
-# Shows installed plugins
+# インストール済みPluginsを表示
 
 > /plugin marketplace
-# Browse available plugins
+# 利用可能Pluginsを閲覧
 
 > /plugin install <plugin-name>
-# Install a plugin from the marketplace
+# マーケットプレイスからPluginをインストール
 ```
 
-To keep your local plugin catalog current, refresh it with:
+ローカルのPluginカタログを最新に保つには：
 
 ```bash
 copilot plugin marketplace update
 ```
 
-Plugins can bundle multiple capabilities together. A single plugin might include related skills, agents, and MCP server configurations that work together.
+一つのPluginに関連するSkills、Agents、MCPサーバー設定をまとめてバンドルすることもできます。
 
-### Community Skill Repositories
+### コミュニティのSkillリポジトリ
 
-Pre-made skills are also available from community repositories:
+事前作成済みSkillsはコミュニティリポジトリからも利用できます：
 
-- **[Awesome Copilot](https://github.com/github/awesome-copilot)** - Official GitHub Copilot resources including skills documentation and examples
+- **[Awesome Copilot](https://github.com/github/awesome-copilot)** - Skillsのドキュメントと例を含むGitHub Copilot公式リソース
 
-### Installing a Community Skill with GitHub CLI
+### GitHub CLIでコミュニティSkillをインストールする
 
-The easiest way to install a skill from a GitHub repository is using the `gh skill install` command (requires [GitHub CLI v2.90.0+](https://github.blog/changelog/2026-04-16-manage-agent-skills-with-github-cli/)):
+GitHubリポジトリからSkillをインストールする最簡単な方法は`gh skill install`コマンドです（[GitHub CLI v2.90.0+](https://github.blog/changelog/2026-04-16-manage-agent-skills-with-github-cli/)必須）：
 
 ```bash
-# Browse and interactively select a skill from awesome-copilot
+# awesome-copilotからインタラクティブに選択してインストール
 gh skill install github/awesome-copilot
 
-# Or install a specific skill directly
+# 特定のSkillを直接インストール
 gh skill install github/awesome-copilot code-checklist
 
-# Install for personal use across all projects (user scope)
+# 全プロジェクトで個人利用する場合（userスコープ）
 gh skill install github/awesome-copilot code-checklist --scope user
 ```
 
-> ⚠️ **Review before installing**: Always read a skill's `SKILL.md` before installing it. Skills control what Copilot does, and a malicious skill could instruct it to run harmful commands or modify code in unexpected ways.
+> ⚠️ **インストール前に必ず確認**: SkillのSKILL.mdを必ず読んでからインストールしてください。SkillsはCopilotの動作を制御し、悪意あるSkillは有害なコマンドの実行や予期せぬコード変更を指示する可能性があります。
 
 ---
 
-# Practice
+# 実践
 
 <img src="../images/practice.png" alt="Warm desk setup with monitor showing code, lamp, coffee cup, and headphones ready for hands-on practice" width="800"/>
 
-Apply what you've learned by building and testing your own skills.
+学んだ内容を実際に自分のSkillを構築して确かめましょう。
 
 ---
 
-## ▶️ Try It Yourself
+## ▶️ 実践してみよう
 
-### Build More Skills
+### さらに多くのSkillsを構築する
 
-Here are two more skills showing different patterns. Follow the same `mkdir` + `cat` workflow from "Creating Your First Skill" above or copy and paste the skills into the proper location. More examples are available in [.github/skills](../.github/skills).
+下記は異なるパターンを示㊉2つのSkillsです。上記の「Creating Your First Skill」と同じ`mkdir` + `cat`の手順を実行するか、適切な場所にコピペなしてください。[.github/skills](../.github/skills)にサンプルがあります。
 
-### pytest Test Generation Skill
+### pytestテスト生成Skill
 
-A skill that ensures consistent pytest structure across your codebase:
+コードベース全体で一貫した pytest構造を確保するSkill：
 
 ```bash
 mkdir -p .github/skills/pytest-gen
@@ -632,9 +632,9 @@ Provide complete, runnable test file with proper imports.
 EOF
 ```
 
-### Team PR Review Skill
+### チームPRレビューSkill
 
-A skill that enforces consistent PR review standards across your team:
+チーム全体で一貫したPRレビュー基準を強制するSkill:
 
 ```bash
 mkdir -p .github/skills/pr-review
@@ -680,45 +680,45 @@ Provide results as:
 EOF
 ```
 
-### Go Further
+### ステップアップ
 
-1. **Skill Creation Challenge**: Create a `quick-review` skill that does a 3-point checklist:
-   - Bare except clauses
-   - Missing type hints
-   - Unclear variable names
+1. **Skill作成チャレンジ**: 3項目のチェックリストに対応する`quick-review` Skillを作成してください:
+   - 裸のexcept節
+   - 型ヒントの欠如
+   - 分かりにくい変数名
 
-   Test it by asking: "Do a quick review of books.py"
+   「books.pyのクイックレビューをして」と尋ねてテストしてください
 
-2. **Skill Comparison**: Time yourself writing a detailed security review prompt manually. Then just ask "Check for security issues in this file" and let your security-audit skill load automatically. How much time did the skill save?
+2. **Skillの比較**: セキュリティレビューのプロンプトを手動で入力する時間を計りましょう。それから「このファイルのセキュリティ問題を確認して」と言って、security-audit Skillに自動適用させてみてください。Skillはどれくらい時間を節約できたでしょうか？
 
-3. **Team Skill Challenge**: Think about your team's code review checklist. Could you encode it as a skill? Write down 3 things the skill should always check.
+3. **チームSkillチャレンジ**: チームのコードレビューチェックリストを考えてみてください。Skillとしてエンコードできますか？常に確認すべき3項目を書き出してみましょう。
 
-**Self-Check**: You understand skills when you can explain why the `description` field matters (it's how Copilot decides whether to load your skill).
+**確認テスト**: `description`フィールドがなぜ重要か（CopilotがSkillを読み込むかどうかを判断するため）を説明できれば、Skillsを理解した証拠です。
 
 ---
 
-## 📝 Assignment
+## 📝 課題
 
-### Main Challenge: Build a Book Summary Skill
+### メインチャレンジ: 書籍サマリーSkillの構築
 
-The examples above created `pytest-gen` and `pr-review` skills. Now practice creating a completely different kind of skill: one for generating formatted output from data.
+上記の例では`pytest-gen`と`pr-review` Skillsを作成しました。今度はまったく違う種類のSkillを作成して、データからフォーマットされた出力を生成する等、実践してみましょう。
 
-1. List your current skills: Run Copilot and pass it `/skills list`. You can also use `ls .github/skills/` to see project skills or `ls ~/.copilot/skills/` for personal skills.
-2. Create a `book-summary` skill at `.github/skills/book-summary/SKILL.md` that generates a formatted markdown summary of the book collection
-3. Your skill should have:
-   - Clear name and description (description is crucial for matching!)
-   - Specific formatting rules (e.g., markdown table with title, author, year, read status)
-   - Output conventions (e.g., use ✅/❌ for read status, sort by year)
-4. Test the skill: `@samples/book-app-project/data.json Summarize the books in this collection`
-5. Verify the skill auto-triggers by checking `/skills list`
-6. Try invoking it directly with `/book-summary Summarize the books in this collection`
+1. 現在のSkillsリストを表示する: Copilotを起動し`/skills list`を実行してください。`ls .github/skills/`でプロジェクトSkills、`ls ~/.copilot/skills/`で個人 Skillsを確認できます。
+2. `.github/skills/book-summary/SKILL.md`に書籍コレクションのフォーマット済みmarkdownサマリーを生成する`book-summary` Skillを作成する
+3. Skillには以下を含める:
+   - 明確なnameとdescription（descriptionはマッチングに不可欠です！）
+   - 具体的なフォーマットルール（例: タイトル、著者、年、読みたか状態のmarkdownテーブル）
+   - 出力規則（例: 読みたか状態に✅/❌、年順ソート）
+4. Skillをテスト: `@samples/book-app-project/data.json このコレクションの書籍をまとめて`
+5. `/skills list`で自動トリガーを確認する
+6. `/book-summary このコレクションの書籍をまとめて`で直接呼び出しも試す
 
-**Success criteria**: You have a working `book-summary` skill that Copilot automatically applies when you ask about the book collection.
+**成功基準**: 書籍コレクションについて質問するとCopilotが自動適用する`book-summary` Skillが完成していること。
 
 <details>
-<summary>💡 Hints (click to expand)</summary>
+<summary>💡 ヒント（クリックして展開）</summary>
 
-**Starter template**: Create `.github/skills/book-summary/SKILL.md`:
+**スターターテンプレート**: `.github/skills/book-summary/SKILL.md`を作成:
 
 ```markdown
 ---
@@ -745,128 +745,128 @@ Example:
 **Total: 2 books (1 read, 1 unread)**
 ```
 
-**Test it:**
+**テストに抜る:**
 ```bash
 copilot
-> @samples/book-app-project/data.json Summarize the books in this collection
-# The skill should auto-trigger based on the description match
+> @samples/book-app-project/data.json このコレクションの書籍をまとめて
+# descriptionの一致に基づいてSkillが自動トリガーされるはず
 ```
 
-**If it doesn't trigger:** Try `/skills reload` then ask again.
+**トリガーされない場合:** `/skills reload`を実行してから再度尋ねてください。
 
 </details>
 
-### Bonus Challenge: Commit Message Skill
+### ボーナスチャレンジ: コミットメッセージSkill
 
-1. Create a `commit-message` skill that generates conventional commit messages with a consistent format
-2. Test it by staging a change and asking: "Generate a commit message for my staged changes"
-3. Document your skill and share it on GitHub with the `copilot-skill` topic
+1. 一貫したフォーマットでconventional commitメッセージを生成する`commit-message` Skillを作成する
+2. 変更をステージして「ステージング済みの変更に対するコミットメッセージを生成して」と尋ねてテストする
+3. Skillをドキュメント化し、`copilot-skill`トピックでGitHubに共有する
 
 ---
 
 <details>
-<summary>🔧 <strong>Common Mistakes & Troubleshooting</strong> (click to expand)</summary>
+<summary>🔧 <strong>よくあるミスとトラブルシューティング</strong> (クリックで展開)</summary>
 
 ### Common Mistakes
 
-| Mistake | What Happens | Fix |
-|---------|--------------|-----|
-| Naming the file something other than `SKILL.md` | Skill won't be recognized | The file must be named exactly `SKILL.md` |
-| Vague `description` field | Skill never gets loaded automatically | Description is the PRIMARY discovery mechanism. Use specific trigger words |
-| Missing `name` or `description` in frontmatter | Skill fails to load | Add both fields in YAML frontmatter |
-| Wrong folder location | Skill not found | Use `.github/skills/skill-name/` (project) or `~/.copilot/skills/skill-name/` (personal) |
+| ミス | 結果 | 修正方法 |
+|---------|---------|----------|
+| `SKILL.md`以外のファイル名にする | Skillが認識されない | ファイル名は必ず正確に`SKILL.md`にすること |
+| `description`が曖昧 | Skillが自動読み込みされない | descriptionは主要な検索メカニズム。指尋語を明記すること |
+| フロントマターの`name`または`description`がない | Skillが読み込み失敗 | YAMLフロントマターに両方追加する |
+| フォルダ位置が間違っている | Skillが見つからない | `.github/skills/skill-name/`（プロジェクト）または`~/.copilot/skills/skill-name/`（個人）を使用 |
 
-### Troubleshooting
+### トラブルシューティング
 
-**Skill not being used** - If Copilot isn't using your skill when expected:
+**Skillが使われない** - 気になるSkillがCopilotに使われていない場合:
 
-1. **Check the description**: Does it match how you're asking?
+1. **descriptionを確認**: 尋ね方と一致していますか？
    ```markdown
-   # Bad: Too vague
-   description: Reviews code
+   # 悪い例: 曖昧すぎる
+   description: コードをレビューする
 
-   # Good: Includes trigger words
-   description: Use for code reviews, checking code quality,
-     finding bugs, security issues, and best practice violations
+   # 良い例: 指尋語を含む
+   description: コードレビュー、品質確認、
+     バグ検出、セキュリティ問題、ベストプラクティス違反の確認に使用
    ```
 
-2. **Verify the file location**:
+2. **ファイル位置を確認**:
    ```bash
-   # Project skills
+   # プロジェクトSkills
    ls .github/skills/
 
-   # User skills
+   # ユーザー Skills
    ls ~/.copilot/skills/
    ```
 
-3. **Check SKILL.md format**: Frontmatter is required:
+3. **SKILL.mdのフォーマットを確認**: frontmatterは必須です:
    ```markdown
    ---
    name: skill-name
-   description: What the skill does and when to use it
+   description: Skillの内容と使うタイミング
    ---
 
-   # Instructions here
+   # 指示事項はここ
    ```
 
-**Skill not appearing** - Verify the folder structure:
+**Skillが表示されない** - フォルダ構成を確認:
 ```
 .github/skills/
-└── my-skill/           # Folder name
-    └── SKILL.md        # Must be exactly SKILL.md (case-sensitive)
+└── my-skill/           # フォルダ名
+    └── SKILL.md        # 正確にSKILL.md（大文字小文字区別あり）
 ```
 
-Run `/skills reload` after creating or editing skills to ensure changes are picked up.
+Skillを作成または編集した後は`/skills reload`で変更を反映してください。
 
-**Testing if a skill loads** - Ask Copilot directly:
+**Skillが実際に機能しているかテスト** - Copilotに直接尋ねる:
 ```bash
-> What skills do you have available for checking code quality?
-# Copilot will describe relevant skills it found
+> コード品質の確認に利用できるスキルはありますか？
+# Copilotが見つかった関連Skillを説明します
 ```
 
-**How do I know my skill is actually working?**
+**Skillが実際に機能しているかどうか確認する方法**
 
-1. **Check the output format**: If your skill specifies an output format (like `[CRITICAL]` tags), look for that in the response
-2. **Ask directly**: After getting a response, ask "Did you use any skills for that?"
-3. **Compare with/without**: Try the same prompt with `--no-custom-instructions` to see the difference:
+1. **出力フォーマットを確認**: Skillが出力フォーマット（例: `[CRITICAL]`タグ）を指定している場合、応答内にそれが存在するか確認
+2. **直接尋ねる**: 回答を得た後、「その回答に何がSkillsを使いましたか？」と尋ねる
+3. **有無で比較する**: `--no-custom-instructions`で同じプロンプトを試してみる:
    ```bash
-   # With skills
+   # Skillsあり
    copilot --allow-all -p "Review @file.py for security issues"
 
-   # Without skills (baseline comparison)
+   # Skillsなし（ベースライン比較）
    copilot --allow-all -p "Review @file.py for security issues" --no-custom-instructions
    ```
-4. **Check for specific checks**: If your skill includes specific checks (like "functions over 50 lines"), see if those appear in the output
+4. **特定のチェックを確認する**: Skillに特定のチェック（「50行超える関数」など）があれば、出力にそれが含まれるか確認する
 
 </details>
 
 ---
 
-# Summary
+# まとめ
 
-## 🔑 Key Takeaways
+## 🔑 重要なポイント
 
-1. **Skills are automatic**: Copilot loads them when your prompt matches the skill's description
-2. **Direct invocation**: You can also invoke skills directly with `/skill-name` as a slash command
-3. **SKILL.md format**: YAML frontmatter (name, description, optional license) plus markdown instructions
-4. **Location matters**: `.github/skills/` for project/team sharing, `~/.copilot/skills/` for personal use
-5. **Description is key**: Write descriptions that match how you naturally ask questions
+1. **Skillsは自動適用**: プロンプトがSkillのdescriptionに一致するとCopilotが読み込みます
+2. **直接呼び出し**: `/skill-name`のスラッシュコマンドでSkillを直接呼び出すことも可能
+3. **SKILL.md形式**: YAMLフロントマター（name、description、オプショナルのlicense）+ markdown指示
+4. **保存場所**: プロジェクト/チーム共有は`.github/skills/`、個人利用は`~/.copilot/skills/`
+5. **descriptionが鍵**: 自分が自然に質問するキーワードを含むdescriptionを書く
 
-> 📋 **Quick Reference**: See the [GitHub Copilot CLI command reference](https://docs.github.com/en/copilot/reference/cli-command-reference) for a complete list of commands and shortcuts.
-
----
-
-## ➡️ What's Next
-
-Skills extend what Copilot can do with auto-loaded instructions. But what about connecting to external services? That's where MCP comes in.
-
-In **[Chapter 06: MCP Servers](../06-mcp-servers/README.md)**, you'll learn:
-
-- What MCP (Model Context Protocol) is
-- Connecting to GitHub, filesystem, and documentation services
-- Configuring MCP servers
-- Multi-server workflows
+> 📋 **クイックリファレンス**: [GitHub Copilot CLIコマンドリファレンス](https://docs.github.com/en/copilot/reference/cli-command-reference)で全コマンドとショートカットを確認できます。
 
 ---
 
-**[← Back to Chapter 04](../04-agents-custom-instructions/README.md)** | **[Continue to Chapter 06 →](../06-mcp-servers/README.md)**
+## ➡️ 次のステップ
+
+Skillsは自動読み込みによってCopilotの機能を拡張します。では、外部サービスへの接続はどうでしょう？そこでMCPの登場です。
+
+**[Chapter 06: MCP Servers](../06-mcp-servers/README.md)**では以下を学びます：
+
+- MCP（Model Context Protocol）とは何か
+- GitHub、ファイルシステム、ドキュメントサービスへの接続
+- MCPサーバーの設定
+- マルチサーバーワークフロー
+
+---
+
+**[← Chapter 04に戻る](../04-agents-custom-instructions/README.md)** | **[Chapter 06へ進む →](../06-mcp-servers/README.md)**

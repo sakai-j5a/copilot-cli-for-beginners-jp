@@ -1,181 +1,181 @@
 ![Chapter 03: Development Workflows](images/chapter-header.png)
 
-> **What if the AI could find bugs you didn't even know to ask about?**
+> **あなたが気づかなかったバグもAIが見つけてくれたらどうでしょう？**
 
-In this chapter, GitHub Copilot CLI becomes your daily driver. You'll use it inside the workflows you already rely on every day: testing, refactoring, debugging, and Git.
+この章では、GitHub Copilot CLIが実務ディリバーになります。テスト、リファクタリング、デバッグ、Gitなど、日々のワークフローの中で広く活用できます。
 
-## 🎯 Learning Objectives
+## 🎯 学習目標
 
-By the end of this chapter, you'll be able to:
+この章を終えると、以下のことができるようになります：
 
-- Run comprehensive code reviews with Copilot CLI
-- Refactor legacy code safely
-- Debug issues with AI assistance
-- Generate tests automatically
-- Integrate Copilot CLI with your git workflow
+- Copilot CLIで包括的なコードレビューを実行する
+- レガシーコードを安全にリファクタリングする
+- AIサポートで問題をデバッグする
+- テストを自動生成する
+- Copilot CLIをgitワークフローに統合する
 
-> ⏱️ **Estimated Time**: ~60 minutes (15 min reading + 45 min hands-on)
-
----
-
-## 🧩 Real-World Analogy: A Carpenter's Workflow
-
-A carpenter doesn't just know how to use tools, they have *workflows* for different jobs:
-
-<img src="images/carpenter-workflow-steps.png" alt="Craftsman workshop showing three workflow lanes: Building Furniture (Measure, Cut, Assemble, Finish), Fixing Damage (Assess, Remove, Repair, Match), and Quality Check (Inspect, Test Joints, Check Alignment)" width="800"/>
-
-Similarly, developers have workflows for different tasks. GitHub Copilot CLI enhances each of these workflows, making you more efficient and effective in your daily coding tasks.
+> ⏱️ **所要時間の目安**: 約60分（15分読む + 45分ハンズオン）
 
 ---
 
-# The Five Workflows
+## 🧩 現実世界のアナロジー: 大工のワークフロー
 
-<img src="images/five-workflows.png" alt="Five glowing neon icons representing code review, testing, debugging, refactoring, and git integration workflows" width="800"/>
+大工はツールの使い方を知っているだけでなく、さまざまな仕事に法した*ワークフロー*を持っています:
 
-Each workflow below is self-contained. Pick the ones that match your current needs, or work through them all.
+<img src="images/carpenter-workflow-steps.png" alt="工房のイメージ: 家具制作（計測、切断、組み立て、仕上げ）、損傷修復（評価、撤去、修復、マッチング）、品質確認（検査、接合部テスト、水平確認）の3レーン" width="800"/>
+
+同様に、開発者はさまざまなタスクに対するワークフローを持っています。GitHub Copilot CLIはそれぞれのワークフローを強化し、日常のコーディング作業をより効率的かつ効果的にします。
 
 ---
 
-## Choose Your Own Adventure
+# 5つのワークフロー
 
-This chapter covers five workflows that developers typically use. **However, you don't need to read them all at once!** Each workflow is self-contained in a collapsible section below. Pick the ones that match what you need and that fits best with your current project. You can always come back and explore the others later.
+<img src="images/five-workflows.png" alt="コードレビュー、テスト、デバッグ、リファクタリング、git連携ワークフローを表すネオン光るアイコン5つ" width="800"/>
 
-<img src="images/five-workflows-swimlane.png" alt="Five Development Workflows: Code Review, Refactoring, Debugging, Test Generation, and Git Integration shown as horizontal swimlanes" width="800"/>
+以下の各ワークフローは独立しています。現在のニーズに合ったものを選んで、全部通して読んでも構いません。
 
-| I want to... | Jump to |
+---
+
+## コースの進め方
+
+この章では開発者が日常的に利用す5つのワークフローを紹介します。**ただし、全部を一度に読む必要はありません！** 各ワークフローは以下の折りたたみセクション内で独立しています。現在のプロジェクトに最も適したものを選んでください。後で他のものにも戻れます。
+
+<img src="images/five-workflows-swimlane.png" alt="5つの開発ワークフロー: コードレビュー、リファクタリング、デバッグ、テスト生成、Git連携が水平スイムレーンで表示された図" width="800"/>
+
+| やりたいこと... | ジャンプ先 |
 |---|---|
-| Review code before merging | [Workflow 1: Code Review](#workflow-1-code-review) |
-| Clean up messy or legacy code | [Workflow 2: Refactoring](#workflow-2-refactoring) |
-| Track down and fix a bug | [Workflow 3: Debugging](#workflow-3-debugging) |
-| Generate tests for my code | [Workflow 4: Test Generation](#workflow-4-test-generation) |
-| Write better commits and PRs | [Workflow 5: Git Integration](#workflow-5-git-integration) |
-| Research before coding | [Quick Tip: Research Before You Plan or Code](#quick-tip-research-before-you-plan-or-code) |
-| See a full bug-fix workflow end to end | [Putting It All Together](#putting-it-all-together-bug-fix-workflow) |
+| マージ前にコードをレビューする | [ワークフロー1: コードレビュー](#workflow-1-code-review) |
+| 混乱したまたはレガシーコードを整理する | [ワークフロー2: リファクタリング](#workflow-2-refactoring) |
+| バグを追いかけて修正する | [ワークフロー3: デバッグ](#workflow-3-debugging) |
+| コードのテストを自動生成する | [ワークフロー4: テスト生成](#workflow-4-test-generation) |
+| より良いコミットとPRを書く | [ワークフロー5: Git連携](#workflow-5-git-integration) |
+| コーディング前に調査する | [クイックヒント: 計画・コード化前のリサーチ](#quick-tip-research-before-you-plan-or-code) |
+| バグ修正ワークフロー全体を見る | [総まとめ: バグ修正ワークフロー](#putting-it-all-together-bug-fix-workflow) |
 
-**Select a workflow below to expand it** and see how GitHub Copilot CLI can enhance your development process in that area. 
+**以下のワークフローを選んで展開**し、GitHub Copilot CLIがその分野でどのように開発プロセスを強化できるかを確認しましょう。
 
 ---
 
 <a id="workflow-1-code-review"></a>
 <details>
-<summary><strong>Workflow 1: Code Review</strong> - Review files, use the /review agent, create severity checklists</summary>
+<summary><strong>ワークフロー1: コードレビュー</strong> - ファイルのレビュー、/review agentの利用、重大度別チェックリスト作成</summary>
 
-<img src="images/code-review-swimlane-single.png" alt="Code review workflow: review, identify issues, prioritize, generate checklist." width="800"/>
+<img src="images/code-review-swimlane-single.png" alt="コードレビューワークフロー: レビュー、課題の特定、優先度付け、チェックリスト作成。" width="800"/>
 
-### Basic Review
+### 基本レビュー
 
-This example uses the `@` symbol to reference a file, giving Copilot CLI direct access to its contents for review.
+この例では`@`シンボルでファイルを参照し、Copilot CLIがレビュー向けにその内容に直接アクセスできるようにしています。
 
 ```bash
 copilot
 
-> Review @samples/book-app-project/book_app.py for code quality
+> @samples/book-app-project/book_app.py のコード品質をレビューしてください
 ```
 
 ---
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎤 動作を見る！</summary>
 
 ![Code Review Demo](images/code-review-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*デモの出力は異なる場合があります。モデル、ツール、応答内容は図示と異なる可能性があります。*
 
 </details>
 
 ---
 
-### Input Validation Review
+### 入力バリデーションのレビュー
 
-Ask Copilot CLI to focus its review on a specific concern (here, input validation) by listing the categories you care about in the prompt.
+プロンプト内で気になるカテゴリを列挙することで、Copilot CLIに特定の関心事（ここでは入力バリデーション）に焦点を当てるよう依頼します。
 
 ```text
 copilot
 
-> Review @samples/book-app-project/utils.py for input validation issues. Check for: missing validation, error handling gaps, and edge cases
+> @samples/book-app-project/utils.py の入力バリデーションの問題をレビューしてください。以下を确認してください: バリデーションの欠如、エラー処理の詳細、エッジケース
 ```
 
 
-### Cross-File Project Review
+### プロジェクト全体のクロスファイルレビュー
 
-Reference an entire directory with `@` to let Copilot CLI scan every file in the project at once.
+`@`でディレクトリ全体を参照することで、Copilot CLIがプロジェクト内の全ファイルを一度にスキャンできます。
 
 ```bash
 copilot
 
-> @samples/book-app-project/ Review this entire project. Create a markdown checklist of issues found, categorized by severity
+> @samples/book-app-project/ このプロエクト全体をレビューしてください。見つかった問題を重大度別に分類したマークダウンチェックリストを作成してください
 ```
 
-### Interactive Code Review
+### インタラクティブなコードレビュー
 
-Use a multi-turn conversation to drill deeper. Start with a broad review, then ask follow-up questions without restarting.
+マルチターンの会話で深掘りします。広範なレビューから始め、セッションを再起動せずに追加質問で主務きます。
 
 ```bash
 copilot
 
-> @samples/book-app-project/book_app.py Review this file for:
-> - Input validation
-> - Error handling
-> - Code style and best practices
+> @samples/book-app-project/book_app.py このファイルを以下の観点でレビューしてください:
+> - 入力バリデーション
+> - エラー処理
+> - コードスタイルとベストプラクティス
 
-# Copilot CLI provides detailed review
+# Copilot CLIが詳細なレビューを提供
 
-> The user input handling - are there any edge cases I'm missing?
+> ユーザー入力処理について — 見逃しているエッジケースはありますか？
 
-# Copilot CLI shows potential issues with empty strings, special characters
+# Copilot CLIが空文字や特殊文字に関する潜在的な問題を表示
 
-> Create a checklist of all issues found, prioritized by severity
+> 見つかった問題すべてのチェックリストを重大度順に作成してください
 
-# Copilot CLI generates prioritized action items
+# Copilot CLIが優先度付きアクションアイテムを生成
 ```
 
-### Review Checklist Template
+### レビューチェックリストテンプレート
 
-Ask Copilot CLI to structure its output in a specific format (here, a severity-categorized markdown checklist you can paste into an issue).
+Copilot CLIに特定の形式（ここでは重大度別のmardownチェックリスト）で出力を構造化するよう依頼します。イシューにペーストするのに便利です。
 
 ```bash
 copilot
 
-> Review @samples/book-app-project/ and create a markdown checklist of issues found, categorized by:
-> - Critical (data loss risks, crashes)
-> - High (bugs, incorrect behavior)
-> - Medium (performance, maintainability)
-> - Low (style, minor improvements)
+> @samples/book-app-project/ をレビューして、見つかった問題を以下に分類したマークダウンチェックリストを作成してください:
+> - 重大（データ結失リスク、クラッシュ）
+> - 高（バグ、誤った動作）
+> - 中（パフォーマンス、保守性）
+> - 低（スタイル、小さな改善）
 ```
 
-### Understanding Git Changes (Important for /review)
+### Gitの変更を理解する（/review使用時の重要事項）
 
-Before using the `/review` command, you need to understand two types of changes in git:
+`/review`コマンドを使う前に、gitの2種類の変更を理解しておく必要があります：
 
-| Change Type | What It Means | How to See |
-|-------------|---------------|------------|
-| **Staged changes** | Files you've marked for the next commit with `git add` | `git diff --staged` |
-| **Unstaged changes** | Files you've modified but haven't added yet | `git diff` |
+| 変更の種類 | 意味 | 確認方法 |
+|-------------|----------|------------|
+| **ステージ済み変更** | `git add`で次のコミット向けにマークしたファイル | `git diff --staged` |
+| **未ステージ変更** | 変更済みだがまだ追加していないファイル | `git diff` |
 
 ```bash
-# Quick reference
-git status           # Shows both staged and unstaged
-git add file.py      # Stage a file for commit
-git diff             # Shows unstaged changes
-git diff --staged    # Shows staged changes
+# クイックリファレンス
+git status           # ステージ済み・未ステージ両方を表示
+git add file.py      # コミット向けにファイルをステージ
+git diff             # 未ステージ変更を表示
+git diff --staged    # ステージ済み変更を表示
 ```
 
-### Using the /review Command
+### /reviewコマンドの使い方
 
-The `/review` command invokes the built-in **code-review agent**, which is optimized for analyzing staged and unstaged changes with high signal-to-noise output. Use a slash command to trigger a specialized built-in agent instead of writing a free-form prompt.
+`/review`コマンドは組み込み**code-review agent**を呼び出します。ステージ済み/未ステージの変更を高シグナルノイズ比の出力で分析するのに最適化されています。フリーフォームのプロンプトではなく、スラッシュコマンドで専門の組み込みAgentを起動します。
 
 ```bash
 copilot
 
 > /review
-# Invokes the code-review agent on staged/unstaged changes
-# Provides focused, actionable feedback
+# ステージ済み/未ステージの変更に対してcode-review agentを起動
+# 焦点の絞った、実行可能なフィードバックを提供
 
-> /review Check for security issues in authentication
-# Run review with specific focus area
+> /review 認証におけるセキュリティ問題を確認してください
+# 特定のフォーカスエリアでレビューを実行
 ```
 
-> 💡 **Tip**: The code-review agent works best when you have pending changes. Stage your files with `git add` for more focused reviews.
+> 💡 **チップ**: code-review agentは保留中の変更があるときに最も効果的です。`git add`でファイルをステージしてより絞ったレビューを作成してください。
 
 </details>
 
@@ -183,91 +183,91 @@ copilot
 
 <a id="workflow-2-refactoring"></a>
 <details>
-<summary><strong>Workflow 2: Refactoring</strong> - Restructure code, separate concerns, improve error handling</summary>
+<summary><strong>ワークフロー2: リファクタリング</strong> - コードの構造化、関心の分離、エラーハンドリングの改善</summary>
 
-<img src="images/refactoring-swimlane-single.png" alt="Refactoring workflow: assess code, plan changes, implement, verify behavior." width="800"/>
+<img src="images/refactoring-swimlane-single.png" alt="リファクタリングワークフロー: コード評価、変更計画、実装、動作確認。" width="800"/>
 
-### Simple Refactoring
+### シンプルなリファクタリング
 
-> **Try this first:** `@samples/book-app-project/book_app.py The command handling uses if/elif chains. Refactor it to use a dictionary dispatch pattern.`
+> **まずこれを試す:** `@samples/book-app-project/book_app.py コマンド処理でif/elif連鎖を使っています。辞書ディスパッチパターンに書き換えてください。`
 
-Start with straightforward improvements. Try these on the book app. Each prompt uses an `@` file reference paired with a specific refactoring instruction so Copilot CLI knows exactly what to change.
+シンプルな改善から始めましょう。以下のプロンプトを書籍アプリで試してみてください。各プロンプトは`@`ファイル参照と具体的なリファクタリング指示を对にしているので、Copilot CLIが正確に何を変更するかを把握できます。
 
 ```bash
 copilot
 
-> @samples/book-app-project/book_app.py The command handling uses if/elif chains. Refactor it to use a dictionary dispatch pattern.
+> @samples/book-app-project/book_app.py コマンド処理でif/elif連鎖を使っています。辞書ディスパッチパターンに書き換えてください。
 
-> @samples/book-app-project/utils.py Add type hints to all functions
+> @samples/book-app-project/utils.py すべての関数に型ヒントを追加してください
 
-> @samples/book-app-project/book_app.py Extract the book display logic into utils.py for better separation of concerns
+> @samples/book-app-project/book_app.py 書籍表示ロジックをutils.pyに抽出して関心の分離を改善してください
 ```
 
-> 💡 **New to refactoring?** Start with simple requests like adding type hints or improving variable names before tackling complex transformations.
+> 💡 **リファクタリングが初めての方へ?** 複雑な変換に偷長する前に、型ヒントの追加や変数名の改善などシンプルな依頼から始めてください。
 
 ---
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎤 動作を見る！</summary>
 
 ![Refactor Demo](images/refactor-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*デモの出力は異なる場合があります。モデル、ツール、応答内容は図示と異なる可能性があります。*
 
 </details>
 
 ---
 
-### Separate Concerns
+### 関心の分離
 
-Reference multiple files with `@` in a single prompt so Copilot CLI can move code between them as part of the refactor.
+リファクターが1つのプロンプトで複数の`@`ファイルを参照することで、Copilot CLIがリファクタリングの一環としてファイル間でコードを移動できます。
 
 ```bash
 copilot
 
 > @samples/book-app-project/utils.py @samples/book-app-project/book_app.py
-> The utils.py file has print statements mixed with logic. Refactor to separate display functions from data processing.
+> utils.pyではprint文がロジックと混在しています。表示関数とデータ処理を分離するようリファクタリングしてください。
 ```
 
-### Improve Error Handling
+### エラーハンドリングの改善
 
-Provide two related files and describe the cross-cutting concern so Copilot CLI can suggest a consistent fix across both.
+関連する2つのファイルと横断的な関心事を記述することで、Copilot CLIが両方に一賫した修正を提案できます。
 
 ```bash
 copilot
 
 > @samples/book-app-project/utils.py @samples/book-app-project/books.py
-> These files have inconsistent error handling. Suggest a unified approach using custom exceptions.
+> これらのファイルではエラー処理が一貫していません。カスタム例外を使った統一されたアプローチを提案してください。
 ```
 
-### Add Documentation
+### ドキュメントの追加
 
-Use a detailed bullet list to specify exactly what each docstring should contain.
+各docstringに必要な内容を箇条書きのリストで尺定して指定します。
 
 ```bash
 copilot
 
-> @samples/book-app-project/books.py Add comprehensive docstrings to all methods:
-> - Include parameter types and descriptions
-> - Document return values
-> - Note any exceptions raised
-> - Add usage examples
+> @samples/book-app-project/books.py すべてのメソッドに包括的なdocstringを追加してください:
+> - パラメータの型と説明を含める
+> - 戻り値を記述する
+> - 発生する例外を記載する
+> - 使用例を追加する
 ```
 
-### Safe Refactoring with Tests
+### テストを使った安全なリファクタリング
 
-Chain two related requests in a multi-turn conversation. First generate tests, then refactor with those tests as a safety net.
+マルチターンの会話で関連する2つの依頼を連鎖します。まずテストを生成し、安全網としてそのテストを使ってリファクタリングします。
 
 ```bash
 copilot
 
-> @samples/book-app-project/books.py Before refactoring, generate tests for current behavior
+> @samples/book-app-project/books.py リファクタリングの前に現在の動作のテストを生成してください
 
-# Get tests first
+# まずテストを取得
 
-> Now refactor the BookCollection class to use a context manager for file operations
+> では BookCollection クラスをファイル操作にコンテキストマネージャーを使うよう書き換えてください
 
-# Refactor with confidence - tests verify behavior is preserved
+# 動作が保持されていることをテストで検証しながら自信を持ってリファクタリング
 ```
 
 </details>
@@ -276,85 +276,85 @@ copilot
 
 <a id="workflow-3-debugging"></a>
 <details>
-<summary><strong>Workflow 3: Debugging</strong> - Track down bugs, security audits, trace issues across files</summary>
+<summary><strong>ワークフロー3: デバッグ</strong> - バグの追跡、セキュリティオーディット、ファイル間の問題を追跡</summary>
 
-<img src="images/debugging-swimlane-single.png" alt="Debugging workflow: understand error, locate root cause, fix, test." width="800"/>
+<img src="images/debugging-swimlane-single.png" alt="デバッグワークフロー: エラーの理解、原因の特定、修正、テスト。" width="800"/>
 
-### Simple Debugging
+### シンプルなデバッグ
 
-> **Try this first:** `@samples/book-app-buggy/books_buggy.py Users report that searching for "The Hobbit" returns no results even though it's in the data. Debug why.`
+> **まずこれを試す:** `@samples/book-app-buggy/books_buggy.py 「The Hobbit」を検索しても結果が返らないとユーザーが報告しています。データに存在するのになぜかデバッグしてください。`
 
-Start by describing what's wrong. Here are common debugging patterns you can try with the buggy book app. Each prompt pairs an `@` file reference with a clear symptom description so Copilot CLI can locate and diagnose the bug.
+何がおかしいかを説明することから始めましょう。以下はバグのある書籍アプリで試せる一般的なデバッグパターンです。各プロンプトは`@`ファイル参照と明確な症状説明を展開しているので、Copilot CLIがバグを見つけて診断できます。
 
 ```bash
 copilot
 
-# Pattern: "Expected X but got Y"
-> @samples/book-app-buggy/books_buggy.py Users report that searching for "The Hobbit" returns no results even though it's in the data. Debug why.
+# パターン: "期待Xだが結果Yが得られた"
+> @samples/book-app-buggy/books_buggy.py 「The Hobbit」を検索しても結果が返らないとユーザーが報告しています。データに存在するのになぜかデバッグしてください。
 
-# Pattern: "Unexpected behavior"
-> @samples/book-app-buggy/book_app_buggy.py When I remove a book that doesn't exist, the app says it was removed. Help me find why.
+# パターン: "予期しない動作"
+> @samples/book-app-buggy/book_app_buggy.py 存在しない本を削除しようとすると、削除されたと表示されます。なぜか紹介してください。
 
-# Pattern: "Wrong results"
-> @samples/book-app-buggy/books_buggy.py When I mark one book as read, ALL books get marked. What's the bug?
+# パターン: "誤った結果"
+> @samples/book-app-buggy/books_buggy.py 1冊だけ既読にしようとすると、全ての本が既読になってしまいます。バグは何ですか？
 ```
 
-> 💡 **Debugging tip**: Describe the *symptom* (what you see) and the *expectation* (what should happen). Copilot CLI figures out the rest.
+> 💡 **デバッグのヒント**: *症状*（見えていること）と*期待値*（実現すべきこと）を説明してください。Copilot CLIが導いてくれます。
 
 ---
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎤 動作を見る！</summary>
 
 ![Fix Bug Demo](images/fix-bug-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*デモの出力は異なる場合があります。モデル、ツール、応答内容は図示と異なる可能性があります。*
 
 </details>
 
 ---
 
-### The "Bug Detective" - AI Finds RELATED Bugs
+### 「バグ探偵」 — AIが関連するバグも発見する
 
-This is where context-aware debugging shines. Try this scenario with the buggy book app. Provide the whole file via `@` and describe only the user-reported symptom. Copilot CLI will trace the root cause and may spot additional bugs nearby.
+ここでコンテキスト対応デバッグの光る部分です。バグのある書籍アプリでこのシナリオを試してみてください。`@`でファイル全体を提供し、ユーザー報告の症状だけを説明することで、Copilot CLIが根本原因を追跡し、近くの別のバグも発見できます。
 
 ```bash
 copilot
 
 > @samples/book-app-buggy/books_buggy.py
 >
-> Users report: "Finding books by author name doesn't work for partial names"
-> Debug why this happens
+> ユーザー報告: "荽名の部分一致で著者名が検索できない"
+> なぜこれが起きるかデバッグしてください
 ```
 
-**What Copilot CLI does**:
+**Copilot CLI が行うこと**:
 ```
-Root Cause: Line 80 uses exact match (==) instead of partial match (in).
+根本原因: 80行目で完全一致（==）の代わりに部分一致（in）が必要です。
 
-Line 80: return [b for b in self.books if b.author == author]
+80行目: return [b for b in self.books if b.author == author]
 
-The find_by_author function requires an exact match. Searching for "Tolkien"
-won't find books by "J.R.R. Tolkien".
+find_by_author 関数は完全一致を必要とします。「Tolkien」で検索しても
+「J.R.R. Tolkien」の本は見つかりません。
 
-Fix: Change to case-insensitive partial match:
+修正: 大文字小文字を無視した部分一致に変更:
 return [b for b in self.books if author.lower() in b.author.lower()]
 ```
 
-**Why this matters**: Copilot CLI reads the whole file, understands the context of your bug report, and gives you a specific fix with a clear explanation.
+**なぜ重要か**: Copilot CLIはファイル全体を読み、バグレポートのコンテキストを理解して、明確な説明付きの具体的な修正を提示します。
 
-> 💡 **Bonus**: Because Copilot CLI analyzes the entire file, it often discovers *other* issues you didn't ask about. For example, while fixing the author search, Copilot CLI might also notice the case-sensitivity bug in `find_book_by_title`!
+> 💡 **ボーナス**: Copilot CLIはファイル全体を分析するため、尋ねていない*別の*問題も発見することがよくあります。例えば、著者検索を修正する途中で、`find_book_by_title`の大文字小文字区別のバグも指摘するかもしれません！
 
-### Real-World Security Sidebar
+### 実際のセキュリティサイドバー
 
-While debugging your own code is important, understanding security vulnerabilities in production applications is critical. Try this example: Point Copilot CLI at an unfamiliar file and ask it to audit for security issues.
+自分のコードのデバッグも重要ですが、本番アプリケーションのセキュリティ脆弱性を理解することも不可欠です。次の例を試してみましょう: 見慣れないファイルをCopilot CLIに指定し、セキュリティ問題を監査するよう依頼します。
 
 ```bash
 copilot
 
-> @samples/buggy-code/python/user_service.py Find all security vulnerabilities in this Python user service
+> @samples/buggy-code/python/user_service.py このPythonユーザーサービス内のセキュリティ脆弱性を全て見つけてください
 ```
 
-This file demonstrates real-world security patterns you'll encounter in production apps.
+このファイルは本番アプリケーションで実際に遅遇するリアルワールドのセキュリティパターンを示しています。
 
 > 💡 **Common security terms you'll encounter:**
 > - **SQL Injection**: When user input is put directly into a database query, allowing attackers to run malicious commands
@@ -364,52 +364,52 @@ This file demonstrates real-world security patterns you'll encounter in producti
 
 ---
 
-### Understanding an Error
+### エラーの理解
 
-Paste a stack trace directly into your prompt along with an `@` file reference so Copilot CLI can map the error to the source code.
+`@`ファイル参照と一緒にスタックトレースをプロンプトに直接貼り付けて、Copilot CLIがエラーをソースコードにマッピングできるようにします。
 
 ```bash
 copilot
 
-> I'm getting this error:
+> このエラーが発生しています:
 > AttributeError: 'NoneType' object has no attribute 'title'
 >     at show_books (book_app.py:19)
 >
-> @samples/book-app-project/book_app.py Explain why and how to fix it
+> @samples/book-app-project/book_app.py なぜ発生するのか、並びに修正方法を教えてください
 ```
 
-### Debugging with Test Case
+### テストケースでデバッグ
 
-Describe the exact input and observed output to give Copilot CLI a concrete, reproducible test case to reason about.
+正確な入力と観察された出力を説明して、Copilot CLIに再現性のある最小限のテストケースを与えます。
 
 ```bash
 copilot
 
-> @samples/book-app-buggy/books_buggy.py The remove_book function has a bug. When I try to remove "Dune",
-> it also removes "Dune Messiah". Debug this: explain the root cause and provide a fix.
+> @samples/book-app-buggy/books_buggy.py remove_book 関数にバグがあります。「Dune」を削除しようとすると「Dune Messiah」も削除されてしまいます。
+> これをデバッグしてください: 根本原因を説明し、修正も提供してください。
 ```
 
-### Trace an Issue Through Code
+### コード全体にわたって問題を追跡
 
-Reference multiple files and ask Copilot CLI to follow the data flow across them to locate where the issue originates.
+複数のファイルを参照して、Copilot CLIにデータフローを追いかけて問題の発生源を特定するよう依頼します。
 
 ```bash
 copilot
 
-> Users report that the book list numbering starts at 0 instead of 1.
+> 書籍リストの番号が0から始まるとユーザーが報告しています。
 > @samples/book-app-buggy/book_app_buggy.py @samples/book-app-buggy/books_buggy.py
-> Trace through the list display flow and identify where the issue occurs
+> リスト表示の流れをトレースして、問題が発生している箇所を特定してください
 ```
 
-### Understanding Data Issues
+### データの問題を理解する
 
-Include a data file alongside the code that reads it so Copilot CLI understands the full picture when suggesting error-handling improvements.
+コードとそれを読み込むデータファイルを同時に提供することで、Copilot CLIがエラーハンドリングの改善案を提案する際に全体像を把握できます。
 
 ```bash
 copilot
 
 > @samples/book-app-project/data.json @samples/book-app-project/books.py
-> Sometimes the JSON file gets corrupted and the app crashes. How should we handle this gracefully?
+> JSONファイルが滅してアプリがクラッシュすることがあります。これを滑らかに処理するにはどうすればいいですか？
 ```
 
 </details>
@@ -418,57 +418,57 @@ copilot
 
 <a id="workflow-4-test-generation"></a>
 <details>
-<summary><strong>Workflow 4: Test Generation</strong> - Generate comprehensive tests and edge cases automatically</summary>
+<summary><strong>ワークフロー4: テスト生成</strong> - 包括的なテストとエッジケースを自動生成</summary>
 
-<img src="images/test-gen-swimlane-single.png" alt="Test Generation workflow: analyze function, generate tests, include edge cases, run." width="800"/>
+<img src="images/test-gen-swimlane-single.png" alt="テスト生成ワークフロー: 関数の分析、テスト生成、エッジケースを含む、実行。" width="800"/>
 
-> **Try this first:** `@samples/book-app-project/books.py Generate pytest tests for all functions including edge cases`
+> **まずこれを試す:** `@samples/book-app-project/books.py エッジケースを含む包括的なpytestテストを生成してください`
 
-### The "Test Explosion" - 2 Tests vs 15+ Tests
+### 「テスト爆発」 — 2テスト vs 15+テスト
 
-Manually writing tests, developers typically create 2-3 basic tests:
-- Test valid input
-- Test invalid input
-- Test an edge case
+テストを手動で書くと、開発者は一般的に2、3つの基本テストを作成します：
+- 有効な入力をテスト
+- 無効な入力をテスト
+- エッジケースをテスト
 
-Watch what happens when you ask Copilot CLI to generate comprehensive tests! This prompt uses a structured bullet list with an `@` file reference to guide Copilot CLI toward thorough test coverage:
+Copilot CLIに包括的なテストを生成させると何が起きるか見てみましょう！このプロンプトは`@`ファイル参照と構造化された箇条書きリストを使って、Copilot CLIが包括的なテストカバレッジを達成できるように誘導します：
 
 ```bash
 copilot
 
-> @samples/book-app-project/books.py Generate comprehensive pytest tests. Include tests for:
-> - Adding books
-> - Removing books
-> - Finding by title
-> - Finding by author
-> - Marking as read
-> - Edge cases with empty data
+> @samples/book-app-project/books.py 包括的なpytestテストを生成してください。以下のテストを含めてください:
+> - 書籍の追加
+> - 書籍の削除
+> - タイトルで検索
+> - 著者で検索
+> - 既読にマーク
+> - 空データのエッジケース
 ```
 
 ---
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎤 動作を見る！</summary>
 
 ![Test Generation Demo](images/test-gen-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*デモの出力は異なる場合があります。モデル、ツール、応答内容は図示と異なる可能性があります。*
 
 </details>
 
 ---
 
-**What you get**: 15+ comprehensive tests including:
+**得られるもの**: 15+の包括的なテスト（以下を含む）:
 
 ```python
 class TestBookCollection:
-    # Happy path
+    # ハッピーパス
     def test_add_book_creates_new_book(self):
         ...
     def test_list_books_returns_all_books(self):
         ...
 
-    # Find operations
+    # 検索操作
     def test_find_book_by_title_case_insensitive(self):
         ...
     def test_find_book_by_title_returns_none_when_not_found(self):
@@ -478,7 +478,7 @@ class TestBookCollection:
     def test_find_by_author_case_insensitive(self):
         ...
 
-    # Edge cases
+    # エッジケース
     def test_add_book_with_empty_title(self):
         ...
     def test_remove_nonexistent_book(self):
@@ -486,7 +486,7 @@ class TestBookCollection:
     def test_mark_as_read_nonexistent_book(self):
         ...
 
-    # Data persistence
+    # データ永続化
     def test_save_books_persists_to_json(self):
         ...
     def test_load_books_handles_missing_file(self):
@@ -494,75 +494,75 @@ class TestBookCollection:
     def test_load_books_handles_corrupted_json(self):
         ...
 
-    # Special characters
+    # 特殊文字
     def test_add_book_with_unicode_characters(self):
         ...
     def test_find_by_author_with_special_characters(self):
         ...
 ```
 
-**Result**: In 30 seconds, you get edge case tests that would take an hour to think through and write.
+**結果**: 30秒で、考え抬くのに1時間かかるエッジケーステストが得られます。
 
 ---
 
-### Unit Tests
+### ユニットテスト
 
-Target a single function and enumerate the input categories you want tested so Copilot CLI generates focused, thorough unit tests.
+1つの関数を対象にし、テストしたい入力カテゴリを列挙することで、Copilot CLIが絞った包括unitテストを生成します。
 
 ```bash
 copilot
 
-> @samples/book-app-project/utils.py Generate comprehensive pytest tests for get_book_details covering:
-> - Valid input
-> - Empty strings
-> - Invalid year formats
-> - Very long titles
-> - Special characters in author names
+> @samples/book-app-project/utils.py get_book_details を対象に包括的なpytestテストを生成してください:
+> - 有効な入力
+> - 空文字列
+> - 無効な年形式
+> - 非常に長いタイトル
+> - 著者名の特殊文字
 ```
 
-### Running Tests
+### テストの実行
 
-Ask Copilot CLI a plain-English question about your toolchain. It can generate the right shell command for you.
+Copilot CLIにツールチェーンについて日常言葉で質問することで、正しいシェルコマンドを生成してくれます。
 
 ```bash
 copilot
 
-> How do I run the tests? Show me the pytest command.
+> テストを実行するにはどうすればいいですか？ pytest コマンドを教えてください。
 
-# Copilot CLI responds:
+# Copilot CLIの応答:
 # cd samples/book-app-project && python -m pytest tests/
-# Or for verbose output: python -m pytest tests/ -v
-# To see print statements: python -m pytest tests/ -s
+# 詳細出力: python -m pytest tests/ -v
+# print文の表示: python -m pytest tests/ -s
 ```
 
-### Test for Specific Scenarios
+### 特定シナリオのテスト
 
-List advanced or tricky scenarios you want covered so Copilot CLI goes beyond the happy path.
+Copilot CLIがハッピーパスを超えるよう、トリッキーなシナリオを一覧表示します。
 
 ```bash
 copilot
 
-> @samples/book-app-project/books.py Generate tests for these scenarios:
-> - Adding duplicate books (same title and author)
-> - Removing a book by partial title match
-> - Finding books when collection is empty
-> - File permission errors during save
-> - Concurrent access to the book collection
+> @samples/book-app-project/books.py 以下のシナリオのテストを生成してください:
+> - 重複書籍の追加（同じタイトルと著者）
+> - 部分タイトル一致で書籍を削除
+> - コレクションが空のときに書籍を検索
+> - 保存中のファイルパーミッションエラー
+> - 書籍コレクションへの同時アクセス
 ```
 
-### Add Tests to Existing File
+### 既存ファイルにテストを追加
 
-Ask for *additional* tests for a single function so Copilot CLI generates new cases that complement what you already have.
+1つの関数に*追加*のテストを依頼することで、Copilot CLIが既存のテストを補完する新しいケースを生成します。
 
 ```bash
 copilot
 
 > @samples/book-app-project/books.py
-> Generate additional tests for the find_by_author function with edge cases:
-> - Author name with hyphens (e.g., "Jean-Paul Sartre")
-> - Author with multiple first names
-> - Empty string as author
-> - Author name with accented characters
+> find_by_author 関数のエッジケースの追加テストを生成してください:
+> - ハイフン付き著者名（例: 「Jean-Paul Sartre」）
+> - 複数のファーストネームを持つ著者
+> - 空文字列の著者名
+> - アクセント文字付きの著者名
 ```
 
 </details>
@@ -571,73 +571,73 @@ copilot
 
 <a id="workflow-5-git-integration"></a>
 <details>
-<summary><strong>Workflow 5: Git Integration</strong> - Commit messages, PR descriptions, /pr, /delegate, and /diff</summary>
+<summary><strong>ワークフロー5: Git連携</strong> - コミットメッセージ、PR説明、/pr、/delegate、/diff</summary>
 
-<img src="images/git-integration-swimlane-single.png" alt="Git Integration workflow: stage changes, generate message, commit, create PR." width="800"/>
+<img src="images/git-integration-swimlane-single.png" alt="Git連携ワークフロー: 変更をステージ、メッセージ生成、コミット、PR作成。" width="800"/>
 
-> 💡 **This workflow assumes basic git familiarity** (staging, committing, branches). If git is new to you, try the other four workflows first.
+> 💡 **このワークフローはgitの基本操作の知識を前提**としています（ステージング、コミット、ブランチ）。gitが初めての方は、まず他の4つのワークフローを試してみてください。
 
-### Generate Commit Messages
+### コミットメッセージの生成
 
-> **Try this first:** `copilot -p "Generate a conventional commit message for: $(git diff --staged)"` — stage some changes, then run this to see Copilot CLI write your commit message.
+> **まずこれを試す:** `copilot -p "次の変更に対する従来形式のコミットメッセージを生成してください: $(git diff --staged)"` — 変更をステージしてから実行すると、Copilot CLIがコミットメッセージを書いてくれます。
 
-This example uses the `-p` inline prompt flag with shell command substitution to pipe `git diff` output directly into Copilot CLI for a one-shot commit message. The `$(...)` syntax runs the command inside the parentheses and inserts its output into the outer command.
+この例では`-p`インラインプロンプトフラグとシェルコマンド置換を使って、`git diff`の出力をワンショットのコミットメッセージ生成のためにCopilot CLIに直接パイプします。`$(...)`構文は可括内のコマンドを実行してその出力を外側のコマンドに挿入します。
 
 ```bash
 
-# See what changed
+# 変更内容を確認
 git diff --staged
 
-# Generate commit message using [Conventional Commit](../GLOSSARY.md#conventional-commit) format
-# (structured messages like "feat(books): add search" or "fix(data): handle empty input")
-copilot -p "Generate a conventional commit message for: $(git diff --staged)"
+# コミットメッセージを[Conventional Commit](../GLOSSARY.md#conventional-commit)フォーマットで生成
+# （「feat(books): add search」や「fix(data): handle empty input」などの構造化メッセージ）
+copilot -p "次の変更に対する従来形式のコミットメッセージを生成してください: $(git diff --staged)"
 
-# Output: "feat(books): add partial author name search
+# 出力: "feat(books): 著者名の部分一致検索を追加
 #
-# - Update find_by_author to support partial matches
-# - Add case-insensitive comparison
-# - Improve user experience when searching authors"
+# - find_by_authorを部分一致対応に更新
+# - 大文字小文字を無視した比較を追加
+# - 著者検索時のユーザー体験を改善"
 ```
 
 ---
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎤 動作を見る！</summary>
 
 ![Git Integration Demo](images/git-integration-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*デモの出力は異なる場合があります。モデル、ツール、応答内容は図示と異なる可能性があります。*
 
 </details>
 
 ---
 
-### Explain Changes
+### 変更の説明
 
-Pipe the output of `git show` into a `-p` prompt to get a plain-English summary of the last commit.
+`git show`の出力を`-p`プロンプトにパイプして、直前のコミットの内容を日常言語で胥砕してもらいます。
 
 ```bash
-# What did this commit change?
-copilot -p "Explain what this commit does: $(git show HEAD --stat)"
+# このコミットは何を変更した？
+copilot -p "このコミットが何をしているか説明してください: $(git show HEAD --stat)"
 ```
 
-### PR Description
+### PRの説明
 
-Combine `git log` output with a structured prompt template to auto-generate a complete pull request description.
+`git log`の出力と構造化されたプロンプトテンプレートを組み合わせて、完全なプルリクエスト説明を自動生成します。
 
 ```bash
-# Generate PR description from branch changes
-copilot -p "Generate a pull request description for these changes:
+# ブランチの変更からPR説明を生成
+copilot -p "これらの変更に対するプルリクエストの説明を生成してください:
 $(git log main..HEAD --oneline)
 
-Include:
-- Summary of changes
-- Why these changes were made
-- Testing done
-- Breaking changes? (yes/no)"
+以下を含めてください:
+- 変更の要約
+- 変更理由
+- テスト内容
+- 破壊的変更の有無（はい/いいえ）"
 ```
 
-### Using /pr in Interactive Mode for the Current Branch
+### 現在のブランチでインタラクティブモードの/prを使用
 
 If you're working with a branch in Copilot CLI's interactive mode, you can use the `/pr` command to work with pull requests. Use `/pr` to view a PR, create a new PR, fix an existing PR, or let Copilot CLI auto-decide based on the branch state.
 
@@ -647,58 +647,58 @@ copilot
 > /pr [view|create|fix|auto]
 ```
 
-### Review Before Push
+### プッシュ前のレビュー
 
-Use `git diff main..HEAD` inside a `-p` prompt for a quick pre-push sanity check across all branch changes.
+`git diff main..HEAD`を`-p`プロンプト内に使って、プッシュ前のブランチ全体の変更をさっと突き合わせます。
 
 ```bash
-# Last check before pushing
-copilot -p "Review these changes for issues before I push:
+# プッシュ前の最終確認
+copilot -p "プッシュ前にこれらの変更を問題がないかレビューしてください:
 $(git diff main..HEAD)"
 ```
 
-### Using /delegate for Background Tasks
+### バックグラウンドタスクへの/delegateの使用
 
-The `/delegate` command hands off work to the GitHub Copilot cloud agent. Use the `/delegate` slash command (or the `&` shortcut) to offload a well-defined task to a background agent.
+`/delegate`コマンドは作業をGitHub CopilotクラウドAgentに定義されたタスクに引き渡します。`/delegate`スラッシュコマンド（または`&`ショートカット）で、明確なタスクをバックグラウンドAgentに委譲します。
 
 ```bash
 copilot
 
 > /delegate Add input validation to the login form
 
-# Or use the & prefix shortcut:
+# または&プレフィックスショートカットを使用:
 > & Fix the typo in the README header
 
 # Copilot CLI:
-# 1. Commits your changes to a new branch
-# 2. Opens a draft pull request
-# 3. Works in the background on GitHub
-# 4. Requests your review when done
+# 1. 変更を新しいブランチにコミット
+# 2. ドラフトプルリクエストを開く
+# 3. GitHub上でバックグラウンドで作業
+# 4. 完了時にレビューを依頼
 ```
 
-This is great for well-defined tasks you want completed while you focus on other work.
+明確なタスクを他の作業に集中しながら完了させたいときに最適です。
 
-### Using /diff to Review Session Changes
+### セッションの変更を確認する/diffの使用
 
-The `/diff` command shows all changes made during your current session. Use this slash command to see a visual diff of everything Copilot CLI has modified before you commit.
+`/diff`コマンドは現在のセッション内の全変更を表示します。コミット前にCopilot CLIが変更した内容のビジュアル差分を確認するにはこのスラッシュコマンドを使用します。
 
 ```bash
 copilot
 
-# After making some changes...
+# 変更を加えた後...
 > /diff
 
-# Shows a visual diff of all files modified in this session
-# Great for reviewing before committing
+# このセッション中に変更された全ファイルのビジュアル差分を表示
+# コミット前にレビューするのに便利
 ```
 
 </details>
 
 ---
 
-## Quick Tip: Research Before You Plan or Code
+## クイックヒント: 計画・コード化前のリサーチ
 
-When you need to investigate a library, understand best practices, or explore an unfamiliar topic, use `/research` to run a deep research investigation before writing any code:
+ライブラリを調査したり、ベストプラクティスを理解したり、未知のトピックを探索する際は、コードを書く前に`/research`で深居りの調査を実行してください：
 
 ```bash
 copilot
@@ -706,189 +706,175 @@ copilot
 > /research What are the best Python libraries for validating user input in CLI apps?
 ```
 
-Copilot searches GitHub repositories and web sources, then returns a summary with references. This is useful when you're about to start a new feature and want to make informed decisions first. You can share the results using `/share`.
+CopilotがGitHubリポジトリやウェブソースを検索し、小出元付きのサマリーを返します。新機能を始める前に情報に基づいた意思決定をしたいときに便利です。結果は`/share`で共有できます。
 
-> 💡 **Tip**: `/research` works well *before* `/plan`. Research the approach, then plan the implementation.
+> 💡 **ヒント**: `/research`は`/plan`の*前に*実行すると効果的です。アプローチをリサーチしてから実装を計画しましょう。
 
 ---
 
-## Putting It All Together: Bug Fix Workflow
+## 総まとめ: バグ修正ワークフロー
 
-Here's a complete workflow for fixing a reported bug:
+報告されたバグを修正するための全体的なワークフローです：
 
 ```bash
 
-# 1. Understand the bug report
+# 1. バグレポートを理解する
 copilot
 
-> Users report: 'Finding books by author name doesn't work for partial names'
-> @samples/book-app-project/books.py Analyze and identify the likely cause
+> ユーザー報告: '著者名の部分一致で書籍が検索できない'
+> @samples/book-app-project/books.py 原因を分析して特定してください
 
-# 2. Debug the issue and fix (continuing in same session)
-> Based on the analysis, show me the find_by_author function and explain the issue
+# 2. 問題をデバッグする（同じセッションを継続）
+> 分析結果に基づいてfind_by_author関数を表示し、問題を説明してください
 
-> Fix the find_by_author function to handle partial name matches
+> find_by_author関数を部分一致に対応するよう修正してください
 
-# 3. Generate tests for the fix
-> @samples/book-app-project/books.py Generate pytest tests specifically for:
-> - Full author name match
-> - Partial author name match
-> - Case-insensitive matching
-> - Author name not found
+# 3. 修正のテストを生成する
+> @samples/book-app-project/books.py 以下のpytestテストを生成してください:
+> - 完全一致の著者名
+> - 部分一致の著者名
+> - 大文字小文字を無視した一致
+> - 著者名が見つからない場合
 
-# Exit the interactive session
+# 4. コミットメッセージを生成する
+copilot -p "次の変更のコミットメッセージを生成してください: $(git diff --staged)"
 
-> /exit
-
-# 4. Run git add
-
-# Stage the changes so git diff --staged has something to work with
-git add .
-
-# 5. Generate commit message
-copilot -p "Generate commit message for: $(git diff --staged)"
-
-# Example Output: "fix(books): support partial author name search"
-
-# 6. Commit changes (optional)
-
-git commit -m "<paste generated message>"
+# Output: "fix(books): support partial author name search"
 ```
 
-### Bug Fix Workflow Summary
+### バグ修正ワークフローのまとめ
 
-| Step | Action | Copilot Command |
+| ステップ | アクション | Copilotコマンド |
 |------|--------|-----------------|
-| 1 | Understand the bug | `> [describe bug] @relevant-file.py Analyze the likely cause` |
-| 2 | Analysis and fix | `> Show me the function and fix the issue` |
-| 3 | Generate tests | `> Generate tests for [specific scenarios]` |
-| 4 | Stage changes | `git add .` |
-| 5 | Generate commit message | `copilot -p "Generate commit message for: $(git diff --staged)"` |
-| 6 | Commit changes| `git commit -m "<paste generated message>"` |
+| 1 | バグを理解する | `> [バグ内容] @relevant-file.py Analyze the likely cause` |
+| 2 | 詳細分析を得る | `> Show me the function and explain the issue` |
+| 3 | 修正を実装する | `> Fix the [具体的な問題]` |
+| 4 | テストを生成する | `> Generate tests for [シナリオ]` |
+| 5 | コミットする | `copilot -p "Generate commit message for: $(git diff --staged)"` |
 
 ---
 
-# Practice
+# 実習
 
-<img src="../images/practice.png" alt="Warm desk setup with monitor showing code, lamp, coffee cup, and headphones ready for hands-on practice" width="800"/>
+<img src="../images/practice.png" alt="モニターにコードが表示されたデスク、ランプ、コーヒーカップ、ヘッドフォンが置かれた手射き練習の宇宙描写" width="800"/>
 
-Now it's your turn to apply these workflows.
+これらのワークフローを実際に適用してみましょう。
 
 ---
 
-## ▶️ Try It Yourself
+## ▶️ ハンズオンで試す
 
-After completing the demos, try these variations:
+デモを完了したら、これらのバリエーションを試してみてください:
 
-1. **Bug Detective Challenge**: Ask Copilot CLI to debug the `mark_as_read` function in `samples/book-app-buggy/books_buggy.py`. Did it explain why the function marks ALL books as read instead of just one?
+1. **バグ探偵チャレンジ**: `samples/book-app-buggy/books_buggy.py`の`mark_as_read`関数をCopilot CLIでデバッグする。なぜ1冊だけでなく**全て**の書籍が既読になるのか説明してくれるか？
 
-2. **Test Challenge**: Generate tests for the `add_book` function in the book app. Count how many edge cases Copilot CLI includes that you wouldn't have thought of.
+2. **テストチャレンジ**: 書籍アプリの`add_book`関数のテストを生成する。Copilot CLIが生成するエッジケースのうち、自分では思いつかなかったものを数えてみてください。
 
-3. **Commit Message Challenge**: Make any small change to a book app file, stage it (`git add .`), then run:
+3. **コミットメッセージチャレンジ**: 書籍アプリのファイルに小さな変更を加えてステージし（`git add .`）、実行する:
    ```bash
-   copilot -p "Generate a conventional commit message for: $(git diff --staged)"
+   copilot -p "次の変更に対する従来形式のコミットメッセージを生成してください: $(git diff --staged)"
    ```
-   Is the message better than what you would have written quickly?
+   自分で迅速に書いたものより良いメッセージか？
 
-**Self-Check**: You understand development workflows when you can explain why "debug this bug" is more powerful than "find bugs" (context matters!).
+**自己チェック**: 「このバグをデバッグ」が「バグを探す」より強力な理由を説明できれば開発ワークフローを理解できています（コンテキストが重要！）。
 
 ---
 
-## 📝 Assignment
+## 📝 課題
 
-### Main Challenge: Refactor, Test, and Ship
+### メインチャレンジ: リファクタリング、テスト、リリース
 
-The hands-on examples focused on `find_book_by_title` and code reviews. Now practice the same workflow skills on different functions in `book-app-project`:
+ハンズオン例では`find_book_by_title`とコードレビューに焦点を当てました。今度は`book-app-project`の別の関数で同じワークフロースキルを実践しましょう:
 
-1. **Review**: Ask Copilot CLI to review `remove_book()` in `books.py` for edge cases and potential issues:
-   `@samples/book-app-project/books.py Review the remove_book() function. What happens if the title partially matches another book (e.g., "Dune" vs "Dune Messiah")? Are there any edge cases not handled?`
-2. **Refactor**: Ask Copilot CLI to improve `remove_book()` to handle edge cases like case-insensitive matching and returning useful feedback when a book isn't found
-3. **Test**: Generate pytest tests specifically for the improved `remove_book()` function, covering:
-   - Removing a book that exists
-   - Case-insensitive title matching
-   - A book that doesn't exist returns appropriate feedback
-   - Removing from an empty collection
-4. **Review**: Stage your changes and run `/review` to check for any remaining issues
-5. **Commit**: Generate a conventional commit message:
-   `copilot -p "Generate a conventional commit message for: $(git diff --staged)"`
+1. **レビュー**: `books.py`の`remove_book()`をエッジケースと潜在的な問題について確認するようCopilot CLIに依頼:
+   `@samples/book-app-project/books.py remove_book()関数をレビューしてください。別の本とタイトルが部分一致する場合（例: 「Dune」 vs 「Dune Messiah」）どうなりますか？処理されていないエッジケースはありますか？`
+2. **リファクタリング**: Copilot CLIに`remove_book()`を改善するよう依頼（大文字小文字を無視したマッチングや、本が見つからない場合の有用なフィードバックの返却など）
+3. **テスト**: 改善された`remove_book()`専用のpytestテストを生成する（以下を網羅）:
+   - 存在する本を削除
+   - 大文字小文字を無視したタイトルマッチング
+   - 存在しない本は適切なフィードバックを返す
+   - 空のコレクションから削除
+4. **レビュー**: 変更をステージして`/review`を実行し、残りの問題がないか確認する
+5. **コミット**: 従来のコミットメッセージを生成:
+   `copilot -p "次の変更に対する従来形式のコミットメッセージを生成してください: $(git diff --staged)"`
 
 <details>
-<summary>💡 Hints (click to expand)</summary>
+<summary>💡 ヒント（クリックして展開）</summary>
 
-**Sample prompts for each step:**
+**各ステップのサンプルプロンプト:**
 
 ```bash
 copilot
 
-# Step 1: Review
-> @samples/book-app-project/books.py Review the remove_book() function. What edge cases are not handled?
+# ステップ1: レビュー
+> @samples/book-app-project/books.py remove_book()関数の処理されていないエッジケースをレビューしてください
 
-# Step 2: Refactor
-> Improve remove_book() to use case-insensitive matching and return a clear message when the book isn't found. Show me the before and after code.
+# ステップ2: リファクタリング
+> remove_book()を大文字小文字を無視したマッチングを使い、本が見つからないときに明確なメッセージを返すよう改善してください。変更前後のコードを表示してください。
 
-# Step 3: Test
-> Generate pytest tests for the improved remove_book() function, including:
-> - Removing a book that exists
-> - Case-insensitive matching ("dune" should remove "Dune")
-> - Book not found returns appropriate response
-> - Removing from an empty collection
+# ステップ3: テスト
+> 改善されたremove_book()関数のpytestテストを以下を含めて生成してください:
+> - 存在する本を削除する
+> - 大文字小文字を無視したマッチング（「dune」で「Dune」を削除できる）
+> - 本が見つからない場合は適切な応答を返す
+> - 空のコレクションから削除する
 
-# Step 4: Review
+# ステップ4: レビュー
 > /review
 
-# Step 5: Commit
-> Generate a conventional commit message for this refactor
+# ステップ5: コミット
+> このリファクタリングの従来形式のコミットメッセージを生成してください
 ```
 
-**Tip:** After improving `remove_book()`, try asking Copilot CLI: "Are there any other functions in this file that could benefit from the same improvements?". It may suggest similar changes to `find_book_by_title()` or `find_by_author()`.
+**ヒント:** `remove_book()`を改善した後、Copilot CLIに「このファイルの他の関数で同様の改善が必要なものはある？」と質conjuntoしてみてください。`find_book_by_title()`や`find_by_author()`にも同様の改善を提案するかもしれません。
 
 </details>
 
-### Bonus Challenge: Create an application with the Copilot CLI
+### ボーナスチャレンジ: Copilot CLIでアプリケーションを作る
 
-> 💡 **Note**: This GitHub Skills exercise uses **Node.js** rather than Python. The GitHub Copilot CLI techniques you'll practice - creating issues, generating code, and collaborating from the terminal - apply to any language.
+> 💡 **注意**: このGitHub SkillsエクササイズはPythonではなく**Node.js**を使用します。イシューの作成、コードの生成、ターミナルからのコラボレーションなどCopilot CLIの技術はどの言語にも適用できます。
 
-The exercise shows developers how to use GitHub Copilot CLI to create issues, generate code, and collaborate from the terminal while building a Node.js calculator app. You'll install the CLI, use templates and agents, and practice iterative, command-line driven development.
+このエクササイズでは、Node.jsで電卓アプリを作りながらGitHub Copilot CLIでイシューの作成、コードの生成、ターミナルからのコラボレーションを学びます。CLIのインストール、テンプレートとAgentsの利用、イテラティブなコマンドライン驱動の開発を繋習します。
 
-##### <img src="../images/github-skills-logo.png" width="28" align="center" /> [Start the "Create applications with the Copilot CLI" Skills Exercise](https://github.com/skills/create-applications-with-the-copilot-cli)
+##### <img src="../images/github-skills-logo.png" width="28" align="center" /> ["Create applications with the Copilot CLI" Skillsエクササイズを始める](https://github.com/skills/create-applications-with-the-copilot-cli)
 
 ---
 
 <details>
-<summary>🔧 <strong>Common Mistakes & Troubleshooting</strong> (click to expand)</summary>
+<summary>🔧 <strong>よくあるミスとトラブルシューティング</strong> （クリックして展開）</summary>
 
-### Common Mistakes
+### よくあるミス
 
-| Mistake | What Happens | Fix |
-|---------|--------------|-----|
-| Using vague prompts like "Review this code" | Generic feedback that misses specific issues | Be specific: "Review for SQL injection, XSS, and auth issues" |
-| Not using `/review` for code reviews | Missing the optimized code-review agent | Use `/review` which is tuned for high signal-to-noise output |
-| Asking to "find bugs" without context | Copilot CLI doesn't know what bug you're experiencing | Describe the symptom: "Users report X happens when Y" |
-| Generating tests without specifying framework | Tests may use wrong syntax or assertion library | Specify: "Generate tests using Jest" or "using pytest" |
+| ミス | 発生する営瓜 | 修正方法 |
+|---------|-------------|----------|
+| 「Review this code」など曖昧なプロンプトを使用 | 具体的な問題を見逃す汎用的なフィードバック | 具体的に: "Review for SQL injection, XSS, and auth issues" |
+| コードレビューに`/review`を使わない | 最適化されたcode-review agentを利用した小 | 高シグナルノイズ比にチューニングされた`/review`を使用 |
+| コンテキストなしで「バグを探す」と依頼 | Copilot CLIが何のバグを知らない | 症状を説明: "ユーザーが「…」の場合にXが発生すると報告" |
+| フレームワークを指定せずテストを生成 | 誤った構文またはアサーションライブラリのテスト | 指定: "Generate tests using Jest" or "using pytest" |
 
-### Troubleshooting
+### トラブルシューティング
 
-**Review seems incomplete** - Be more specific about what to look for:
-
-```bash
-copilot
-
-# Instead of:
-> Review @samples/book-app-project/book_app.py
-
-# Try:
-> Review @samples/book-app-project/book_app.py for input validation, error handling, and edge cases
-```
-
-**Tests don't match my framework** - Specify the framework:
+**レビューが不完全に見える** - 何を探すかをより具体的に指定する:
 
 ```bash
 copilot
 
-> @samples/book-app-project/books.py Generate tests using pytest (not unittest)
+# ダメな例:
+> @samples/book-app-project/book_app.py をレビューしてください
+
+# 良い例:
+> @samples/book-app-project/book_app.py 入力バリデーション、エラー処理、エッジケースについてレビューしてください
 ```
 
-**Refactoring changes behavior** - Ask Copilot CLI to preserve behavior:
+**テストがフレームワークに合わない** - フレームワークを指定する:
+
+```bash
+copilot
+
+> @samples/book-app-project/books.py pytest（unittestではなく）でテストを生成してください
+```
+
+**リファクタリングが動作を変える** - Copilot CLIに動作の保持を依頼する:
 
 ```bash
 copilot
@@ -900,72 +886,72 @@ copilot
 
 ---
 
-# Summary
+# まとめ
 
-## 🔑 Key Takeaways
+## 🔑 重要なポイント
 
-<img src="images/specialized-workflows.png" alt="Specialized Workflows for Every Task: Code Review, Refactoring, Debugging, Testing, and Git Integration" width="800"/>
+<img src="images/specialized-workflows.png" alt="各タスク向けの専門ワークフロー: コードレビュー、リファクタリング、デバッグ、テスト、Git連携" width="800"/>
 
-1. **Code review** becomes comprehensive with specific prompts
-2. **Refactoring** is safer when you generate tests first
-3. **Debugging** benefits from showing Copilot CLI the error AND the code
-4. **Test generation** should include edge cases and error scenarios
-5. **Git integration** automates commit messages and PR descriptions
+1. **コードレビュー**は具体的なプロンプトで包括的になる
+2. **リファクタリング**はテストを先に生成することで安全になる
+3. **デバッグ**はエラーとコードの両方をCopilot CLIに示すことで効果が大きくなる
+4. **テスト生成**はエッジケースとエラーシナリオを含めるべき
+5. **Git連携**はコミットメッセージとPR説明を自動化する
 
-> 📋 **Quick Reference**: See the [GitHub Copilot CLI command reference](https://docs.github.com/en/copilot/reference/cli-command-reference) for a complete list of commands and shortcuts.
-
----
-
-## ✅ Checkpoint: You've Mastered the Essentials
-
-**Congratulations!** You now have all the core skills to be productive with GitHub Copilot CLI:
-
-| Skill | Chapter | You Can Now... |
-|-------|---------|----------------|
-| Basic Commands | Ch 01 | Use interactive mode, plan mode, programmatic mode (-p), and slash commands |
-| Context | Ch 02 | Reference files with `@`, manage sessions, understand context windows |
-| Workflows | Ch 03 | Review code, refactor, debug, generate tests, integrate with git |
-
-Chapters 04-06 cover additional features that add even more power and are worthwhile to learn.
+> 📋 **クイックリファレンス**: 全コマンドとショートカットの一覧は[GitHub Copilot CLIコマンドリファレンス](https://docs.github.com/en/copilot/reference/cli-command-reference)を参照してください。
 
 ---
 
-## 🛠️ Building Your Personal Workflow
+## ✅ チェックポイント: 基礎をマスターした
 
-There's no single "right" way to use GitHub Copilot CLI. Here are a few tips as you develop your own patterns:
+**おめでとうございます！** GitHub Copilot CLIで生産性を発揮するための基礎スキルを全て習得しました:
 
-> 📚 **Official Documentation**: [Copilot CLI best practices](https://docs.github.com/copilot/how-tos/copilot-cli/cli-best-practices) for recommended workflows and tips from GitHub.
+| スキル | 章 | できること |
+|-------|---------|------------------|
+| 基本コマンド | Ch 01 | インタラクティブモード、Planモード、プログラマティックモード（-p）、スラッシュコマンドの利用 |
+| コンテキスト | Ch 02 | `@`でファイルを参照する、セッション管理、コンテキストウィンドウの理解 |
+| ワークフロー | Ch 03 | コードレビュー、リファクタリング、デバッグ、テスト生成、git連携 |
 
-- **Start with `/plan`** for anything non-trivial. Refine the plan before execution - a good plan leads to better results.
-- **Save prompts that work well.** When Copilot CLI makes a mistake, note what went wrong. Over time, this becomes your personal playbook.
-- **Experiment freely.** Some developers prefer long, detailed prompts. Others prefer short prompts with follow-ups. Try different approaches and notice what feels natural.
-
-> 💡 **Coming up**: In Chapters 04 and 05, you'll learn how to codify your best practices into custom instructions and skills that Copilot CLI loads automatically.
+Chapter 04-06はさらなる機能をカバーしており、学ぶ値打ちがあります。
 
 ---
 
-## ➡️ What's Next
+## 🛠️ 個人ワークフローの構築
 
-The remaining chapters cover additional features that extend Copilot CLI's capabilities:
+GitHub Copilot CLI の「正しい使い方」は一つではありません。自分のパターンを確立するためのヒント:
 
-| Chapter | What It Covers | When You'll Want It |
+> 📚 **公式ドキュメント**: [Copilot CLI ベストプラクティス](https://docs.github.com/copilot/how-tos/copilot-cli/cli-best-practices) - GitHub からの推奨ワークフローとヒント。
+
+- **非軽微なことには`/plan`から始める**。実行前に計画を細調整する — 良い計画はより良い結果を生む。
+- **効果的なプロンプトを保存する**。Copilot CLI が失敗したとき、何が悪かったか記録する。時間とともにこれが個人のプレイブックになる。
+- **自由に実験する**。長く詳細なプロンプトを好む開発者もいれば、短いプロンプトと追加質問を好む人もいる。横々なアプローチを試して自分に合ったものを見つけよう。
+
+> 💡 **次のステップ**: Chapter 04 と 05 では、Copilot CLI が自動読み込むカスタム指示とスキルにベストプラクティスをコード化する方法を学びます。
+
+---
+
+## ➡️ 次のステップ
+
+残りの章では Copilot CLI の能力を拡張する追加機能を紹介します：
+
+| 章 | 内容 | 必要な時 |
 |---------|----------------|---------------------|
-| Ch 04: Agents | Create specialized AI personas | When you want domain experts (frontend, security) |
-| Ch 05: Skills | Auto-load instructions for tasks | When you repeat the same prompts often |
-| Ch 06: MCP | Connect external services | When you need live data from GitHub, databases |
+| Ch 04: Agents | 専門化された AI ペルソナを作成 | ドメインを知るスペシャリスト（frontend、security）が欲しいとき |
+| Ch 05: Skills | タスク用の指示を自動読み込み | 同じプロンプトを繰り返すとき |
+| Ch 06: MCP | 外部サービスに接続 | GitHub やデータベースのライブデータが必要なとき |
 
-**Recommendation**: Try the core workflows for a week, then return to Chapters 04-06 when you have specific needs.
+**推奨**: コアワークフローを1週間試してから、特定のニーズが生まれたら Chapter 04-06 に戻ってきてください。
 
 ---
 
-## Continue to Additional Topics
+## 追加トピックへ進む
 
-In **[Chapter 04: Agents and Custom Instructions](../04-agents-custom-instructions/README.md)**, you'll learn:
+**[Chapter 04: Agents and Custom Instructions](../04-agents-custom-instructions/README.md)** で学ぶ内容:
 
-- Using built-in agents (`/plan`, `/review`)
-- Creating specialized agents (frontend expert, security auditor) with `.agent.md` files
-- Multi-agent collaboration patterns
-- Custom instruction files for project standards
+- 組み込み Agents の利用（`/plan`、`/review`）
+- `.agent.md` ファイルで専門化されたAgents（frontend エキスパート、セキュリティ監査人）を作成
+- マルチ Agent コラボレーションパターン
+- プロジェクト標準のカスタム指示ファイル
 
 ---
 
